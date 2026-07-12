@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | Troy Bourque - personal / professional</title>
+  <meta name="description" content="Troy Bourque - personal / professional - public site">
+  <style>
+:root {
+  --bg: #faf9f7;
+  --text: #1a1a1a;
+  --muted: #555;
+  --accent: #0b57d0;
+  --border: #e4e0da;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+header {
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.25rem; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; }
+.site-title { font-size: 1.35rem; font-weight: 700; margin: 0; }
+.site-title a { color: inherit; text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; font-family: system-ui, sans-serif; font-size: 0.95rem; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover, nav a.active { color: var(--accent); }
+main { padding: 2rem 0 3rem; }
+main h2 { margin-top: 1.75rem; font-size: 1.25rem; }
+main h3 { margin-top: 1.25rem; font-size: 1.05rem; }
+main ul { padding-left: 1.25rem; }
+main a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+footer {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  padding: 1.25rem 0 2rem;
+}
+@media (max-width: 600px) {
+  .top { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <p class="site-title"><a href="index.html">Troy Bourque</a></p>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h2>Projects</h2>
+<p>Selected public repositories and open work. Execution and live data stay in project workspaces — this page is links only.</p>
+<h3>Open source</h3>
+<ul>
+<li><a href="https://github.com/thebourque/cursor-hub">cursor-hub</a> — planning hub and fleet tooling</li>
+<li><a href="https://github.com/thebourque/gumbo_project">gumbo_project</a> — digital twin for fiber build economics</li>
+<li><a href="https://github.com/thebourque/fairskies-n2k">fairskies-n2k</a> — marine NMEA 2000 tooling</li>
+<li><a href="https://github.com/thebourque/Simrad">Simrad</a> — NMEA 0183 and fleet utilities</li>
+<li><a href="https://github.com/thebourque/ScreenReader">ScreenReader</a> — market screen utilities</li>
+<li><a href="https://github.com/thebourque/trade-minder">trade-minder</a> — portfolio and market tooling</li>
+<li><a href="https://github.com/thebourque/bill-payment">bill-payment</a> — spending intelligence</li>
+<li><a href="https://github.com/thebourque/bourque-family">bourque-family</a> — family records (private repo; link omitted if not public)</li>
+</ul>
+<hr>
+<p><em>Hub agents update this list from `config/projects.json` when repos go public.</em></p>
+  </main>
+  <footer class="wrap">
+    Maintained by cursor-hub. Updated 2026-07-12.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About | Troy Bourque - personal / professional</title>
+  <meta name="description" content="Troy Bourque - personal / professional - public site">
+  <style>
+:root {
+  --bg: #faf9f7;
+  --text: #1a1a1a;
+  --muted: #555;
+  --accent: #0b57d0;
+  --border: #e4e0da;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+header {
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.25rem; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; }
+.site-title { font-size: 1.35rem; font-weight: 700; margin: 0; }
+.site-title a { color: inherit; text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; font-family: system-ui, sans-serif; font-size: 0.95rem; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover, nav a.active { color: var(--accent); }
+main { padding: 2rem 0 3rem; }
+main h2 { margin-top: 1.75rem; font-size: 1.25rem; }
+main h3 { margin-top: 1.25rem; font-size: 1.05rem; }
+main ul { padding-left: 1.25rem; }
+main a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+footer {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  padding: 1.25rem 0 2rem;
+}
+@media (max-width: 600px) {
+  .top { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <p class="site-title"><a href="index.html">Troy Bourque</a></p>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h2>About</h2>
+<p>Troy Bourque — founding partner, Managing Member, and Chief Construction Officer at <strong>CableSouth Media III, LLC</strong> (consumer brands Swyft Fiber, SwyftConnect, Media3). The company builds and operates rural fiber ISP plant with grant-funded construction across Louisiana, Arkansas, and Mississippi.</p>
+<h3>Telecom</h3>
+<ul>
+<li>OSP fiber design, engineering, and construction</li>
+<li>Subsidy and passing economics for rural builds</li>
+<li>Institutional and K–12 transport experience (Hunt Telecommunications, Louisiana; sold to Uniti Group, 2017)</li>
+<li>Earlier career: Computers-N-Service and Integrated Data Systems (Metairie) — networks, DSL, and IT services</li>
+</ul>
+<h3>Marine</h3>
+<ul>
+<li>USCG <strong>100-ton captain</strong></li>
+<li>Operator, M/Y <em>Fair Skies</em> (90-foot Burger, Trevelyn Enterprises)</li>
+<li>Hands-on integrator: NMEA 2000, NMEA 0183 / Simrad fleet, IP video and vessel spatial mapping</li>
+</ul>
+<hr>
+<p><em>Public site maintained from cursor-hub. Last content pass: 2026-07-12.</em></p>
+  </main>
+  <footer class="wrap">
+    Maintained by cursor-hub. Updated 2026-07-12.
+  </footer>
+</body>
+</html>
