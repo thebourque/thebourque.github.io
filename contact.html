@@ -46,6 +46,23 @@ footer {
   font-size: 0.85rem;
   padding: 1.25rem 0 2rem;
 }
+footer nav { margin-bottom: 0.5rem; }
+.sms-optin {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1rem 1.15rem;
+  margin: 1.25rem 0;
+  font-family: system-ui, sans-serif;
+}
+.sms-optin label { display: block; margin: 0.65rem 0; }
+.sms-optin input[type="tel"], .sms-optin input[type="text"] {
+  width: 100%; max-width: 22rem; padding: 0.4rem 0.5rem;
+}
+.sms-optin button {
+  margin-top: 0.75rem; padding: 0.45rem 0.9rem;
+  background: var(--accent); color: #fff; border: 0; cursor: pointer;
+}
+.sms-optin .fine { color: var(--muted); font-size: 0.85rem; }
 @media (max-width: 600px) {
   .top { flex-direction: column; align-items: flex-start; }
 }
@@ -60,12 +77,15 @@ footer {
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="contact.html" class="active">Contact</a>
+        <a href="sms.html">SMS</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
       </nav>
     </div>
   </header>
   <main class="wrap">
     <h2>Contact — Trevelyn Enterprises, LLC</h2>
-<p><strong>Legal entity:</strong> Trevelyn Enterprises, LLC <strong>EIN:</strong> 82-3753152 <strong>Website:</strong> <a href="https://thebourque.com">https://thebourque.com</a> (GitHub Pages: <a href="https://thebourque.github.io">thebourque.github.io</a>)</p>
+<p><strong>Legal entity:</strong> Trevelyn Enterprises, LLC <strong>DBA:</strong> M/Y Fair Skies · Bourque Ventures <strong>EIN:</strong> 82-3753152 <strong>Website:</strong> <a href="https://thebourque.com">https://thebourque.com</a> (GitHub Pages: <a href="https://thebourque.github.io">thebourque.github.io</a>) <strong>SMS:</strong> <a href="sms.html">Opt-in / HELP / STOP</a> · <a href="terms.html">Mobile Terms</a> · <a href="privacy.html">Privacy</a></p>
 <p><strong>Authorized representative:</strong> Troy Bourque <strong>Email:</strong> <a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> <strong>Phone:</strong> +1 985-518-4220 <strong>GitHub:</strong> <a href="https://github.com/thebourque">github.com/thebourque</a></p>
 <h3>Offices</h3>
 <p><strong>Puerto Rico — main office</strong> 64 Calle Carbonel, Suite 1304 Cabo Rojo, PR 00623 United States</p>
@@ -76,7 +96,14 @@ footer {
 <p>For Swyft Fiber / CableSouth Media III business inquiries, use company channels where appropriate. Trevelyn Enterprises and personal matters: Troy@thebourque.com.</p>
   </main>
   <footer class="wrap">
-    Maintained by cursor-hub. Updated 2026-07-30.
+    <nav>
+      <a href="sms.html">SMS</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    Trevelyn Enterprises, LLC · DBA M/Y Fair Skies · DBA Bourque Ventures · EIN 82-3753152<br>
+    Maintained by cursor-hub. Updated 2026-08-17.
   </footer>
 </body>
 </html>

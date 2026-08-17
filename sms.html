@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SMS | Trevelyn Enterprises, LLC</title>
+  <meta name="description" content="Trevelyn Enterprises, LLC - public site">
+  <style>
+:root {
+  --bg: #faf9f7;
+  --text: #1a1a1a;
+  --muted: #555;
+  --accent: #0b57d0;
+  --border: #e4e0da;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+header {
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.25rem; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; }
+.site-title { font-size: 1.35rem; font-weight: 700; margin: 0; }
+.site-title a { color: inherit; text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; font-family: system-ui, sans-serif; font-size: 0.95rem; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover, nav a.active { color: var(--accent); }
+main { padding: 2rem 0 3rem; }
+main h2 { margin-top: 1.75rem; font-size: 1.25rem; }
+main h3 { margin-top: 1.25rem; font-size: 1.05rem; }
+main ul { padding-left: 1.25rem; }
+main a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+footer {
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  padding: 1.25rem 0 2rem;
+}
+footer nav { margin-bottom: 0.5rem; }
+.sms-optin {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1rem 1.15rem;
+  margin: 1.25rem 0;
+  font-family: system-ui, sans-serif;
+}
+.sms-optin label { display: block; margin: 0.65rem 0; }
+.sms-optin input[type="tel"], .sms-optin input[type="text"] {
+  width: 100%; max-width: 22rem; padding: 0.4rem 0.5rem;
+}
+.sms-optin button {
+  margin-top: 0.75rem; padding: 0.45rem 0.9rem;
+  background: var(--accent); color: #fff; border: 0; cursor: pointer;
+}
+.sms-optin .fine { color: var(--muted); font-size: 0.85rem; }
+@media (max-width: 600px) {
+  .top { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <p class="site-title"><a href="index.html">Trevelyn Enterprises, LLC</a></p>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+        <a href="sms.html" class="active">SMS</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h2>SMS messaging — Trevelyn Enterprises, LLC</h2>
+<p><strong>Trevelyn Enterprises, LLC</strong> (EIN 82-3753152), also doing business as <strong>M/Y Fair Skies</strong> and <strong>Bourque Ventures</strong>, offers optional <strong>automated text alerts</strong> about account, payment, meeting, and operations activity for people who have a business relationship with us (owners, crew, vendors, and advisors).</p>
+<p>This is <strong>not</strong> a mass-marketing blast list. Marketing texts, if we ever send them, require <strong>written</strong> consent (checkbox below, signature, or texting YES). Verbal “yes” is <strong>not</strong> enough for marketing.</p>
+<p><strong>Program phone:</strong> +1 855-935-3188 <strong>Help:</strong> <a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> · +1 985-518-4220</p>
+<h3>What you get</h3>
+<ul>
+<li>Account and payment-activity alerts</li>
+<li>Meeting and operations reminders</li>
+<li>Occasional service notices from Trevelyn Enterprises, LLC / M/Y Fair Skies / Bourque Ventures</li>
+</ul>
+<p><strong>Frequency:</strong> typically <strong>two messages per month</strong>. Urgent ops or meeting alerts may be more when you have opted in. Message and data rates may apply, depending on your mobile plan.</p>
+<p><strong>HELP</strong> — reply <strong>HELP</strong> to any message (or email Troy@thebourque.com). <strong>STOP</strong> — reply <strong>STOP</strong> to opt out. You will receive one confirmation. <strong>Terms:</strong> <a href="terms.html">thebourque.com/terms.html</a> <strong>Privacy:</strong> <a href="privacy.html">thebourque.com/privacy.html</a></p>
+<h3>Written consent (required for marketing; used for all web opt-ins)</h3>
+<p>Check the box and submit. That is your <strong>written</strong> yes. We will send a confirmation text.</p>
+<form class="sms-optin" action="mailto:Troy@thebourque.com?subject=SMS%20opt-in%20Trevelyn%20Enterprises" method="get">
+<p><strong>SMS opt-in — Trevelyn Enterprises, LLC</strong></p>
+<label>Mobile number<br><input type="tel" name="phone" required placeholder="+1 555 555 5555" autocomplete="tel"></label>
+<label>Your name<br><input type="text" name="name" required placeholder="Full name"></label>
+<label><input type="checkbox" name="consent" value="yes" required> Yes. I want automated text alerts from Trevelyn Enterprises, LLC (DBA M/Y Fair Skies, DBA Bourque Ventures) about account, payment, meeting, and operations activity. Typical frequency is two messages per month. Message and data rates may apply. Reply HELP for help, STOP to opt out. <a href="terms.html">Mobile Terms</a> and <a href="privacy.html">Privacy Policy</a>.</label>
+<p class="fine">You must check the box. Pre-checked boxes are not used. Consent is not a condition of purchase.</p>
+<button type="submit">Send written opt-in</button>
+</form>
+<h3>Script we use when asking by voice or in person (then we still get a written yes)</h3>
+<p>As part of our service we can send you automated monthly text alerts regarding Trevelyn Enterprises, LLC (DBA M/Y Fair Skies, DBA Bourque Ventures) account payment and operations activity. We will send two messages per month. Message and data rates may apply, depending on your mobile phone service plan. At any time you can get more help by replying HELP to these texts, or you can opt out completely by replying STOP. Mobile Terms of Service are available at https://thebourque.com/terms.html and our Privacy Statement can be found at https://thebourque.com/privacy.html. Please reply with yes or no to indicate if you would like this service.</p>
+<p>If you say yes, we still collect the <strong>checkbox or a YES text</strong> before marketing use, and we send a confirmation message to finish enrollment.</p>
+  </main>
+  <footer class="wrap">
+    <nav>
+      <a href="sms.html">SMS</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    Trevelyn Enterprises, LLC · DBA M/Y Fair Skies · DBA Bourque Ventures · EIN 82-3753152<br>
+    Maintained by cursor-hub. Updated 2026-08-17.
+  </footer>
+</body>
+</html>

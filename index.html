@@ -46,6 +46,23 @@ footer {
   font-size: 0.85rem;
   padding: 1.25rem 0 2rem;
 }
+footer nav { margin-bottom: 0.5rem; }
+.sms-optin {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1rem 1.15rem;
+  margin: 1.25rem 0;
+  font-family: system-ui, sans-serif;
+}
+.sms-optin label { display: block; margin: 0.65rem 0; }
+.sms-optin input[type="tel"], .sms-optin input[type="text"] {
+  width: 100%; max-width: 22rem; padding: 0.4rem 0.5rem;
+}
+.sms-optin button {
+  margin-top: 0.75rem; padding: 0.45rem 0.9rem;
+  background: var(--accent); color: #fff; border: 0; cursor: pointer;
+}
+.sms-optin .fine { color: var(--muted); font-size: 0.85rem; }
 @media (max-width: 600px) {
   .top { flex-direction: column; align-items: flex-start; }
 }
@@ -60,13 +77,16 @@ footer {
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="contact.html">Contact</a>
+        <a href="sms.html">SMS</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
       </nav>
     </div>
   </header>
   <main class="wrap">
     <h2>Trevelyn Enterprises, LLC</h2>
-<p><strong>https://thebourque.com</strong> is the public web presence of <strong>Trevelyn Enterprises, LLC</strong> — a U.S. limited liability company.</p>
-<p>| | | |---|---| | Legal name | Trevelyn Enterprises, LLC | | EIN | 82-3753152 | | Authorized representative | Troy Bourque | | Email | <a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> | | Phone | +1 985-518-4220 |</p>
+<p><strong>https://thebourque.com</strong> is the public web presence of <strong>Trevelyn Enterprises, LLC</strong> — a U.S. limited liability company, also doing business as <strong>M/Y Fair Skies</strong> and <strong>Bourque Ventures</strong>.</p>
+<p>| | | |---|---| | Legal name | Trevelyn Enterprises, LLC | | DBA | M/Y Fair Skies · Bourque Ventures | | EIN | 82-3753152 | | Authorized representative | Troy Bourque | | Email | <a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> | | Phone | +1 985-518-4220 | | SMS | <a href="sms.html">Opt-in, HELP, STOP</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> |</p>
 <p>Fiber construction leadership, grant-funded rural builds, and marine systems operations.</p>
 <hr>
 <h3>Offices</h3>
@@ -80,10 +100,17 @@ footer {
 </ul>
 <hr>
 <h3>Contact</h3>
-<p><a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> · <a href="https://github.com/thebourque">GitHub</a></p>
+<p><a href="mailto:Troy@thebourque.com">Troy@thebourque.com</a> · <a href="sms.html">SMS alerts</a> · <a href="https://github.com/thebourque">GitHub</a></p>
   </main>
   <footer class="wrap">
-    Maintained by cursor-hub. Updated 2026-07-30.
+    <nav>
+      <a href="sms.html">SMS</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    Trevelyn Enterprises, LLC · DBA M/Y Fair Skies · DBA Bourque Ventures · EIN 82-3753152<br>
+    Maintained by cursor-hub. Updated 2026-08-17.
   </footer>
 </body>
 </html>
