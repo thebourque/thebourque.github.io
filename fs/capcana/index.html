@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>M/Y Fair Skies — food, wine, spirits</title>
+  <style>
+    :root { --bg:#faf9f7; --text:#1a1a1a; --muted:#555; --accent:#0b57d0; --border:#e4e0da; --card:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Georgia,"Times New Roman",serif; background:var(--bg); color:var(--text); line-height:1.5; }
+    .wrap { max-width:40rem; margin:0 auto; padding:1.25rem 1.1rem 3rem; }
+    h1 { font-size:1.35rem; margin:0 0 .4rem; }
+    h2 { font-size:1.1rem; margin:1.6rem 0 .7rem; }
+    .lede, .who, .status { color:var(--muted); font-family:system-ui,sans-serif; font-size:.92rem; }
+    .who { margin:.25rem 0 1rem; }
+    .field { display:block; margin:0 0 .85rem; padding:.7rem .75rem; background:var(--card); border:1px solid var(--border); }
+    legend { font-weight:700; padding:0 0 .35rem; }
+    .radios, .chk { font-family:system-ui,sans-serif; }
+    .radios { display:flex; gap:1rem; flex-wrap:wrap; margin:.35rem 0; }
+    .chk { display:inline-flex; align-items:center; gap:.35rem; margin:.25rem .85rem .25rem 0; font-family:system-ui,sans-serif; }
+    input[type=text] { width:100%; margin-top:.4rem; padding:.4rem .5rem; border:1px solid var(--border); font:inherit; }
+    button { margin-top:1rem; padding:.55rem 1.1rem; background:var(--accent); color:#fff; border:0; cursor:pointer; font:600 .95rem system-ui,sans-serif; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .banner { padding:.7rem .8rem; margin:0 0 1rem; border:1px solid var(--border); background:var(--card); font-family:system-ui,sans-serif; }
+    .banner.bad { border-color:#b42318; }
+    .banner.ok { border-color:#0b7a3b; }
+    footer { margin-top:2rem; color:var(--muted); font-family:system-ui,sans-serif; font-size:.8rem; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="lede">Hidden sheet · M/Y Fair Skies · 4 days · Cap Cana</p>
+    <h1>Food, wine, and spirits</h1>
+    <p class="who" id="who">Your personal link is required.</p>
+    <p class="lede">Tap YES / NO / MAYBE. Three NOs is enough. Hard NOs and allergies first. Not a booking ask.</p>
+    <div id="banner" hidden class="banner"></div>
+    <form id="sheet" hidden>
+      <section><h2>0) Safety — please do not skip</h2><fieldset class="field"><legend>Allergies (food, nut, shellfish, sulfite, other)</legend><div class="radios"><label class="r"><input type="radio" name="allergies" data-field="allergies" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="allergies" data-field="allergies" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="allergies" data-field="allergies" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="allergies_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Things that make you sick (cilantro, dairy, gluten, onion, spice)</legend><div class="radios"><label class="r"><input type="radio" name="sick" data-field="sick" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="sick" data-field="sick" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="sick" data-field="sick" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="sick_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Meds or conditions that do not mix with alcohol (private is fine)</legend><div class="radios"><label class="r"><input type="radio" name="meds_alcohol" data-field="meds_alcohol" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="meds_alcohol" data-field="meds_alcohol" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="meds_alcohol" data-field="meds_alcohol" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="meds_alcohol_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Motion / seasick — ginger, bands, or a quiet bunk plan?</legend><div class="radios"><label class="r"><input type="radio" name="seasick" data-field="seasick" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="seasick" data-field="seasick" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="seasick" data-field="seasick" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="seasick_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Sun / heat — extra water, light lunch, no midday spirits?</legend><div class="radios"><label class="r"><input type="radio" name="sun_heat" data-field="sun_heat" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="sun_heat" data-field="sun_heat" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="sun_heat" data-field="sun_heat" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="sun_heat_note" data-kind="note" placeholder="short note (optional)"></fieldset></section>
+<section><h2>Morning / coffee</h2><fieldset class="field"><legend>How you take coffee</legend><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="milk" id="coffee_how__milk"> milk</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="cream" id="coffee_how__cream"> cream</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="sweet cream" id="coffee_how__sweet cream"> sweet cream</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="sugar" id="coffee_how__sugar"> sugar</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="Equal" id="coffee_how__Equal"> Equal</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="Sweet'n Low" id="coffee_how__Sweet'n Low"> Sweet'n Low</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="Stevia" id="coffee_how__Stevia"> Stevia</label><label class="chk"><input type="checkbox" data-field="coffee_how" data-kind="multi" value="black" id="coffee_how__black"> black</label></fieldset><label class="field">First cup time (e.g. 6:30, with sunrise, after lines)<input type="text" data-field="first_cup" data-kind="text" autocomplete="off"></label><fieldset class="field"><legend>Also in the morning</legend><label class="chk"><input type="checkbox" data-field="morning_else" data-kind="multi" value="juice" id="morning_else__juice"> juice</label><label class="chk"><input type="checkbox" data-field="morning_else" data-kind="multi" value="Bloody Mary" id="morning_else__Bloody Mary"> Bloody Mary</label><label class="chk"><input type="checkbox" data-field="morning_else" data-kind="multi" value="michelada" id="morning_else__michelada"> michelada</label><label class="chk"><input type="checkbox" data-field="morning_else" data-kind="multi" value="none" id="morning_else__none"> none</label></fieldset></section>
+<section><h2>1) Food — how you eat</h2><fieldset class="field"><legend>Breakfast: eggs / fruit / yogurt / pastry / skip</legend><div class="radios"><label class="r"><input type="radio" name="breakfast" data-field="breakfast" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="breakfast" data-field="breakfast" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="breakfast" data-field="breakfast" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="breakfast_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Lunch: salad / sandwich / grilled fish / leftovers / light only</legend><div class="radios"><label class="r"><input type="radio" name="lunch" data-field="lunch" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="lunch" data-field="lunch" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="lunch" data-field="lunch" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="lunch_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Dinner: one sit-down / graze / early / late</legend><div class="radios"><label class="r"><input type="radio" name="dinner" data-field="dinner" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="dinner" data-field="dinner" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="dinner" data-field="dinner" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="dinner_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Heat-day food: ceviche / fruit / cold plates — YES or too raw?</legend><div class="radios"><label class="r"><input type="radio" name="heat_day" data-field="heat_day" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="heat_day" data-field="heat_day" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="heat_day" data-field="heat_day" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="heat_day_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Spice: none / mild / medium / hot</legend><div class="radios"><label class="r"><input type="radio" name="spice" data-field="spice" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="spice" data-field="spice" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="spice" data-field="spice" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="spice_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Red meat</legend><div class="radios"><label class="r"><input type="radio" name="red_meat" data-field="red_meat" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="red_meat" data-field="red_meat" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="red_meat" data-field="red_meat" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="red_meat_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Chicken</legend><div class="radios"><label class="r"><input type="radio" name="chicken" data-field="chicken" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="chicken" data-field="chicken" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="chicken" data-field="chicken" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="chicken_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Pork</legend><div class="radios"><label class="r"><input type="radio" name="pork" data-field="pork" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="pork" data-field="pork" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="pork" data-field="pork" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="pork_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Fresh local fish (cooked)</legend><div class="radios"><label class="r"><input type="radio" name="fish_cooked" data-field="fish_cooked" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="fish_cooked" data-field="fish_cooked" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="fish_cooked" data-field="fish_cooked" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="fish_cooked_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Shellfish (shrimp, lobster, conch)</legend><div class="radios"><label class="r"><input type="radio" name="shellfish" data-field="shellfish" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="shellfish" data-field="shellfish" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="shellfish" data-field="shellfish" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="shellfish_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Raw bar / ceviche / oysters</legend><div class="radios"><label class="r"><input type="radio" name="raw_bar" data-field="raw_bar" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="raw_bar" data-field="raw_bar" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="raw_bar" data-field="raw_bar" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="raw_bar_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Vegetarian nights if the group leans that way</legend><div class="radios"><label class="r"><input type="radio" name="veg_nights" data-field="veg_nights" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="veg_nights" data-field="veg_nights" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="veg_nights" data-field="veg_nights" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="veg_nights_note" data-kind="note" placeholder="short note (optional)"></fieldset></section>
+<section><h2>2) Wine</h2><fieldset class="field"><legend>White (Sauvignon, Albariño, Chardonnay — note dry vs oak)</legend><div class="radios"><label class="r"><input type="radio" name="white" data-field="white" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="white" data-field="white" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="white" data-field="white" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="white_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Rosé</legend><div class="radios"><label class="r"><input type="radio" name="rose" data-field="rose" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="rose" data-field="rose" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="rose" data-field="rose" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="rose_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Sparkling / Champagne / Cava / Prosecco</legend><div class="radios"><label class="r"><input type="radio" name="sparkling" data-field="sparkling" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="sparkling" data-field="sparkling" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="sparkling" data-field="sparkling" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="sparkling_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Light red (Pinot, Gamay)</legend><div class="radios"><label class="r"><input type="radio" name="light_red" data-field="light_red" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="light_red" data-field="light_red" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="light_red" data-field="light_red" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="light_red_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Bigger red (Cab, Malbec, Rioja)</legend><div class="radios"><label class="r"><input type="radio" name="big_red" data-field="big_red" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="big_red" data-field="big_red" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="big_red" data-field="big_red" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="big_red_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Sweet wine / dessert wine</legend><div class="radios"><label class="r"><input type="radio" name="sweet_wine" data-field="sweet_wine" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="sweet_wine" data-field="sweet_wine" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="sweet_wine" data-field="sweet_wine" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="sweet_wine_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>House-good is fine vs a couple of nicer bottles you care about</legend><div class="radios"><label class="r"><input type="radio" name="house_vs_nice" data-field="house_vs_nice" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="house_vs_nice" data-field="house_vs_nice" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="house_vs_nice" data-field="house_vs_nice" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="house_vs_nice_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Wine with lunch? with dinner only? skip?</legend><div class="radios"><label class="r"><input type="radio" name="wine_when" data-field="wine_when" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="wine_when" data-field="wine_when" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="wine_when" data-field="wine_when" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="wine_when_note" data-kind="note" placeholder="short note (optional)"></fieldset></section>
+<section><h2>3) Spirits and other drinks</h2><fieldset class="field"><legend>Rum (light / dark / sipping)</legend><div class="radios"><label class="r"><input type="radio" name="rum" data-field="rum" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="rum" data-field="rum" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="rum" data-field="rum" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="rum_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Tequila / mezcal</legend><div class="radios"><label class="r"><input type="radio" name="tequila" data-field="tequila" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="tequila" data-field="tequila" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="tequila" data-field="tequila" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="tequila_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Whiskey / bourbon / Scotch</legend><div class="radios"><label class="r"><input type="radio" name="whiskey" data-field="whiskey" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="whiskey" data-field="whiskey" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="whiskey" data-field="whiskey" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="whiskey_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Gin</legend><div class="radios"><label class="r"><input type="radio" name="gin" data-field="gin" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="gin" data-field="gin" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="gin" data-field="gin" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="gin_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Vodka</legend><div class="radios"><label class="r"><input type="radio" name="vodka" data-field="vodka" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="vodka" data-field="vodka" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="vodka" data-field="vodka" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="vodka_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Beer / seltzer</legend><div class="radios"><label class="r"><input type="radio" name="beer" data-field="beer" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="beer" data-field="beer" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="beer" data-field="beer" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="beer_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Cocktails you actually drink (name two)</legend><div class="radios"><label class="r"><input type="radio" name="cocktails" data-field="cocktails" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="cocktails" data-field="cocktails" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="cocktails" data-field="cocktails" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="cocktails_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Neat / rocks / with a mixer</legend><div class="radios"><label class="r"><input type="radio" name="serve" data-field="serve" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="serve" data-field="serve" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="serve" data-field="serve" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="serve_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Soft: Diet Coke, ginger beer, coconut water, sparkling water</legend><div class="radios"><label class="r"><input type="radio" name="soft" data-field="soft" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="soft" data-field="soft" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="soft" data-field="soft" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="soft_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Ice: always / sometimes / almost never</legend><div class="radios"><label class="r"><input type="radio" name="ice" data-field="ice" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="ice" data-field="ice" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="ice" data-field="ice" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="ice_note" data-kind="note" placeholder="short note (optional)"></fieldset></section>
+<section><h2>4) Pace (so we do not over-pour)</h2><fieldset class="field"><legend>Light / normal / I will keep up / I will sit some rounds out</legend><div class="radios"><label class="r"><input type="radio" name="pace" data-field="pace" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="pace" data-field="pace" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="pace" data-field="pace" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="pace_note" data-kind="note" placeholder="short note (optional)"></fieldset><fieldset class="field"><legend>Hard stop you want honored (e.g. no shots, no rum after dinner)</legend><div class="radios"><label class="r"><input type="radio" name="hard_stop" data-field="hard_stop" data-kind="yesno" value="YES"> YES</label><label class="r"><input type="radio" name="hard_stop" data-field="hard_stop" data-kind="yesno" value="NO"> NO</label><label class="r"><input type="radio" name="hard_stop" data-field="hard_stop" data-kind="yesno" value="MAYBE"> MAYBE</label></div><input type="text" data-field="hard_stop_note" data-kind="note" placeholder="short note (optional)"></fieldset><label class="field">Anything else the galley should know<input type="text" data-field="galley_else" data-kind="text" autocomplete="off"></label></section>
+      <button type="submit" id="save">Save my answers</button>
+      <p class="status" id="saved"></p>
+    </form>
+    <footer>Uncle Troy's Boat Creature · answers stay on this personal link · not listed on the public site</footer>
+  </main>
+  <script>
+    const API_BASE = "https://sms.thebourque.com";
+    const params = new URLSearchParams(location.search);
+    const token = (params.get("k") || "").trim();
+    const banner = document.getElementById("banner");
+    const form = document.getElementById("sheet");
+    const who = document.getElementById("who");
+    const saved = document.getElementById("saved");
+
+    function showBanner(text, kind) {
+      banner.hidden = false;
+      banner.className = "banner " + (kind || "");
+      banner.textContent = text;
+    }
+
+    function apiUrl() {
+      return (API_BASE || "") + "/te/prefs/api";
+    }
+
+    function collect() {
+      const answers = {};
+      document.querySelectorAll("[data-field]").forEach((el) => {
+        const id = el.getAttribute("data-field");
+        const kind = el.getAttribute("data-kind");
+        if (kind === "multi") {
+          if (!answers[id]) answers[id] = [];
+          if (el.checked) answers[id].push(el.value);
+        } else if (kind === "yesno") {
+          if (el.checked) {
+            answers[id] = answers[id] || {};
+            answers[id].mark = el.value;
+          }
+        } else if (kind === "note") {
+          const key = id.replace(/_note$/, "");
+          answers[key] = answers[key] || {};
+          if (el.value.trim()) answers[key].note = el.value.trim();
+        } else if (kind === "text") {
+          answers[id] = el.value.trim();
+        }
+      });
+      return answers;
+    }
+
+    function fill(answers) {
+      if (!answers) return;
+      document.querySelectorAll("[data-field]").forEach((el) => {
+        const id = el.getAttribute("data-field");
+        const kind = el.getAttribute("data-kind");
+        const val = answers[id.replace(/_note$/, "")];
+        if (kind === "multi" && Array.isArray(val)) el.checked = val.indexOf(el.value) >= 0;
+        else if (kind === "yesno" && val && val.mark) el.checked = el.value === val.mark;
+        else if (kind === "note" && val && val.note) el.value = val.note;
+        else if (kind === "text" && typeof val === "string") el.value = val;
+      });
+    }
+
+    async function boot() {
+      if (!token) {
+        showBanner("This page is personal. Ask UTBC for your own link.", "bad");
+        return;
+      }
+      const res = await fetch(apiUrl() + "?k=" + encodeURIComponent(token));
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        showBanner("This link is not valid. Ask UTBC for a new one.", "bad");
+        return;
+      }
+      who.textContent = data.person + " · " + (data.vessel || "M/Y Fair Skies");
+      form.hidden = false;
+      fill(data.answers || {});
+      if (data.updated) saved.textContent = "Last saved " + data.updated;
+    }
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const btn = document.getElementById("save");
+      btn.disabled = true;
+      try {
+        const res = await fetch(apiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ k: token, answers: collect() }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) {
+          showBanner("Could not save. Try once more.", "bad");
+          return;
+        }
+        showBanner("Saved. The galley has your marks.", "ok");
+        saved.textContent = "Last saved " + (data.updated || "");
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    boot();
+  </script>
+</body>
+</html>
