@@ -57,6 +57,7 @@
   <a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a>
   <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
   <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
+  <a href="#wave1_nepa_bead_labor">Wave 1 — remaining, NEPA, BEAD RC, labor $</a>
   <a href="#reports_directory">GUMBO Reports Directory</a>
   <a href="#report_queries">GUMBO Report Queries (code + plain English)</a>
 </nav>
@@ -69,7 +70,7 @@
   </div>
   <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (2.1 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (3.2 hr ago)</b>
     
   </p>
 
@@ -114,7 +115,7 @@
   </div>
   <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (2.1 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (3.2 hr ago)</b>
     
   </p>
 
@@ -157,7 +158,7 @@
   </div>
   <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:06 UTC (2.1 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:06 UTC (3.2 hr ago)</b>
      &middot; 1,036 rows
   </p>
 
@@ -195,6 +196,52 @@
 </section>
 
 
+<section class="card" id="wave1_nepa_bead_labor">
+  <div class="card-head">
+    <h2>Wave 1 — remaining, NEPA, BEAD RC, labor $</h2>
+    <a class="live-link" href="https://thebourque.com/fs/wave1-nepa-bead-labor/">https://thebourque.com/fs/wave1-nepa-bead-labor/</a>
+  </div>
+  <p class="purpose">Wave-1 projects with passings remaining to build: Contrac-adjusted remaining, NEPA overlap, BEAD complete/remaining by give-back Reason Code, and atomic-BOQ labor/material $ remaining</p>
+  <p class="meta">
+    Last regenerated: <b>2026-08-18 21:15 UTC (1 min ago)</b>
+     &middot; 248 rows
+  </p>
+
+  <h3>How it was generated</h3>
+    <ul class='methodology'>
+      <li>Model: OPS_DRAFT_V900. Pulls Include=Yes, wave_tag='wave1_tom_ben' rows with hh_remain_adj &gt; 0 (Contrac-adjusted passings remaining) from the same engine as the Wave/Contrac-remaining report (src/wave_contrac_remaining.py) -- miles/passings/BEAD remaining, Contrac-adjusted the same three-case way (Complete -&gt; 0 remaining display-only, In Construction -&gt; prorated by perc_complete, no ROQ job -&gt; plan value unchanged).</li>
+      <li>NEPA: same leftover-polygon-vs-NEPA-line spatial join as the Wave-1 + NEPA risk map (scripts/_dump_wave1_josh_map.py) -- approved/blocked overlap miles, and nepa_passing_at_risk = this row's full hh_remain_adj when nepa_status is not 'clear' (any blocked/partial/no-data NEPA line touching the leftover polygon).</li>
+      <li>BEAD give-back Reason Code: data/sandbox/bead_descope/giveback_locations.csv (Address_Awarded AwardArea IS NOT NULL) points intersected against the same leftover polygon via STRtree, counted per RC bucket (RC1_2/RC3/RC4/RC5_BDC/RC5_OTHER/Jason Cut).</li>
+      <li>Start/end date: raw_household_detail_v4.build_start_date/build_end_date, straight passthrough, no math.</li>
+      <li>Labor/material $ remaining: atomic BOQ mainline remainder (plan qty - field ROQ qty) x plan unit $ (src/plan_field_remainder.py), split by each Inputs atomic bucket's own labor-vs-material tag -- core_rules_atomic_units_authority. Pricing resolves to this model version's own atomic tables when present, else falls back to the Williams-825 authority pin (OPS_WILLIAMS_V825_RETIME) -- src/contrack_gumbo_buckets.resolve_atomic_pricing_version_tag() -- never a silent $0. tbl_mst_bom_dollar has its own permanent footnote pin (Ver8.2.1). Buckets with no labor/material tag at the Inputs grain (chiefly the magic-mile rollup trueup bucket) are reported separately as unsplit_remain_cost rather than guessed into either side -- labor_remain_cost + material_remain_cost + unsplit_remain_cost always foots to mainline_remain_cost. Every row names its labor_remain_source (matched_williams825_pin / matched_own_version / no_ocius_job_match).</li>
+      <li>Geometry pinned to ProjectAreas_20260810_arcgis_live.geojson (operator 2026-08-17: hold until told to move forward) -- same pin as report_ut_fsa_score.py / _dump_wave1_josh_map.py.</li>
+      <li>Static snapshot: re-run scripts/report_wave1_nepa_bead_labor.py (raw JSON/CSV/MD) and scripts/gen_wave1_nepa_bead_labor_page.py (this browser page -- calls the same build_report() function, not a second copy) to refresh, then rebuild+redeploy the hub site.</li>
+    </ul>
+  <a class="query-link" href="/fs/report-queries/#wave1_nepa_bead_labor">&rarr; See the actual query (code + plain English)</a>
+
+  <div class="uses-grid">
+    <div class="uses-col uses-good">
+      <h3>&#10003; Intended uses</h3>
+    <ul class='uses'>
+      <li>Identifying which Wave-1 projects still have real passings remaining to build, with NEPA exposure and BEAD give-back context in one row.</li>
+      <li>Understanding the labor-vs-material-vs-unsplit composition of the atomic-BOQ dollar remainder on a project, and whether that $ figure is priced off this model version's own Inputs data or the Williams-825 authority pin.</li>
+      <li>Ad-hoc CSV pulls filtered by parish, NEPA status, or labor-pricing source for planning or diligence conversations.</li>
+    </ul>
+    </div>
+    <div class="uses-col uses-bad">
+      <h3>&#10007; Not for</h3>
+    <ul class='notfor'>
+      <li>Wave 2 or Wave 3 -- this report is Wave 1 only (wave_tag='wave1_tom_ben').</li>
+      <li>Projects with zero remaining passings -- filtered out entirely; use the Wave/Contrac-remaining report for the full Include Yes+No universe including complete projects.</li>
+      <li>A full project cost estimate -- labor/material/unsplit $ here covers only the mainline atomic BOQ remainder, not soft costs (engineering/permitting), drop/CPE/switching/access peripherals, or anything already spent.</li>
+      <li>Treating unsplit_remain_cost as either labor or material -- it is explicitly the share of the mainline remainder with no labor/material tag at the Inputs grain (the magic-mile rollup trueup); do not fold it into either side.</li>
+      <li>Treating a Williams-825-pin-priced row as if it reflects this model version's own negotiated unit costs -- labor_remain_source names the pin explicitly whenever that fallback is used.</li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+
 <section class="card" id="reports_directory">
   <div class="card-head">
     <h2>GUMBO Reports Directory</h2>
@@ -202,7 +249,7 @@
   </div>
   <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 19:56 UTC (15 min ago)</b>
+    Last regenerated: <b>2026-08-18 20:12 UTC (1.1 hr ago)</b>
     
   </p>
 
@@ -242,7 +289,7 @@
   </div>
   <p class="purpose">For every report, the actual SQL/Python that produced its numbers, verbatim, with a plain-English walkthrough</p>
   <p class="meta">
-    Last regenerated: <b>not yet generated</b>
+    Last regenerated: <b>2026-08-18 20:12 UTC (1.1 hr ago)</b>
     
   </p>
 
@@ -273,6 +320,6 @@
 </section>
 
 </main>
-<footer>Generated 2026-08-18 20:12:17 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-18 21:17:14 UTC &middot; unlisted, noindex, not in nav</footer>
 </body>
 </html>

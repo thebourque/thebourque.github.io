@@ -51,6 +51,7 @@
   <a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a>
   <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
   <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
+  <a href="#wave1_nepa_bead_labor">Wave 1 — remaining, NEPA, BEAD RC, labor $</a>
   <a href="#reports_directory">GUMBO Reports Directory</a>
   <a href="#report_queries">GUMBO Report Queries (code + plain English)</a>
 </nav>
@@ -188,6 +189,51 @@ else:
 </section>
 
 
+<section class="card" id="wave1_nepa_bead_labor">
+  <div class="card-head">
+    <h2>Wave 1 — remaining, NEPA, BEAD RC, labor $</h2>
+    <a class="live-link" href="https://thebourque.com/fs/wave1-nepa-bead-labor/">https://thebourque.com/fs/wave1-nepa-bead-labor/</a>
+  </div>
+  <p class="purpose">Wave-1 projects with passings remaining to build: Contrac-adjusted remaining, NEPA overlap, BEAD complete/remaining by give-back Reason Code, and atomic-BOQ labor/material $ remaining</p>
+
+  <div class="qblock">
+    <div class="qlabel">1. Pull the Wave-1 remaining-passings rows <span class="lang">python</span></div>
+    <pre class="code"><code>vt = resolve_model_version_tag(cur, "OPS_DRAFT_V900", sqlite_only=True)
+rows = fetch_rows(cur, vt, waves=["wave1_tom_ben"], include=["YES"])
+rows = [r for r in rows if float(r.get("hh_remain_adj") or 0) &gt; 0]</code></pre>
+    <p class="english">Reuses the exact same fetch_rows() as the Wave/Contrac-remaining report (src/wave_contrac_remaining.py) -- same Contrac-adjusted miles/passings/BEAD math -- then filters down to Wave 1 rows that still have Contrac-adjusted passings remaining to build. Nothing here re-derives the remaining-math; it's the identical function call with a wave + a post-filter.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">2. Labor/material atomic pricing resolution (the fix) <span class="lang">python</span></div>
+    <pre class="code"><code>def resolve_atomic_pricing_version_tag(cursor, version_tag):
+    if _version_has_atomic_rows(cursor, version_tag):
+        return version_tag, False
+    return ATOMIC_AUTHORITY_PIN_VERSION_TAG, True  # Williams-825
+
+# then, per mainline bucket:
+labor_share = plan.labor / plan.subtotal if plan.subtotal &gt; 0 else 0.0
+material_share = plan.material / plan.subtotal if plan.subtotal &gt; 0 else 0.0
+unsplit_share = max(0.0, 1.0 - labor_share - material_share)
+remain_labor_cost = remain_cost * labor_share
+remain_material_cost = remain_cost * material_share
+remain_unsplit_cost = remain_cost * unsplit_share</code></pre>
+    <p class="english">core_rules_atomic_units_authority: before pulling any atomic labor/materials/arrays row, GUMBO checks whether this model version has its own rows in tbl_atomic_labor; if not (true for OPS_DRAFT_V900 today), every atomic lookup for that template falls back to the Williams-825 pin instead of silently returning $0. Then, for each mainline bucket (conduit, handhole, splice, terminal, aerial, fiber, embedded), the remaining $ is split into labor / material / unsplit by that specific bucket's own tagged labor-vs-material $ -- not a portfolio-wide ratio, and never invented for buckets (like the magic-mile rollup trueup) that carry no tag at all at the Inputs grain.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">3. NEPA + BEAD RC spatial joins (Python, not SQL) <span class="lang">python</span></div>
+    <pre class="code"><code>nepa = w1mod.nepa_join_for(nepa_tree, nepa_geoms, nepa_meta, leftover_polygon)
+rc = rc_join_for(rc_tree, rc_geoms, rc_meta, leftover_polygon)
+nepa_passing_at_risk = 0.0 if nepa["nepa_status"] == "clear" else hh_remain_adj</code></pre>
+    <p class="english">Two STRtree spatial joins against the same project leftover polygon (parent/child dissolve already applied): one against NEPA route lines (reused verbatim from the Wave-1 + NEPA risk map's own join function), one against BEAD give-back Reason-Code points. A project's full Contrac-adjusted remaining passings count as 'at risk' the moment any non-clear NEPA line touches its footprint -- this is a binary flag on the row's own remaining passings, not a fraction of the NEPA line's own length.</p>
+  </div>
+
+</section>
+
+
 <section class="card" id="reports_directory">
   <div class="card-head">
     <h2>GUMBO Reports Directory</h2>
@@ -215,6 +261,6 @@ statuses = {s.id: s for s in get_report_statuses(registry)}</code></pre>
 </section>
 
 </main>
-<footer>Generated 2026-08-18 20:12:18 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-18 21:17:14 UTC &middot; unlisted, noindex, not in nav</footer>
 </body>
 </html>
