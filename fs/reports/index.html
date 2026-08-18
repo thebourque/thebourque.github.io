@@ -55,6 +55,7 @@
   <a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a>
   <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
   <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
+  <a href="#reports_directory">GUMBO Reports Directory</a>
 </nav>
 <main>
 
@@ -65,7 +66,7 @@
   </div>
   <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (1.7 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (1.9 hr ago)</b>
     
   </p>
 
@@ -109,7 +110,7 @@
   </div>
   <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (1.7 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (1.8 hr ago)</b>
     
   </p>
 
@@ -128,7 +129,7 @@
     <ul class='uses'>
       <li>Visualizing where GIS 'leftover' (undissolved / not-yet-carved) polygon volume remains on parent-grain rows -- the exhausted-parent / GIS-final-review workflow.</li>
       <li>Cross-referencing marketing dot density against model-location dot density in the same box (a density-match signal, not an authority count).</li>
-      <li>Spotting parish-scale leftover polygons that still have real volume needing either more engineering or a force-exhausted call (parent_polygon_volume_review).</li>
+      <li>Spotting parish-scale leftover polygons that still have real volume left in them, so a human can decide whether that area needs more engineering or should be marked exhausted.</li>
     </ul>
     </div>
     <div class="uses-col uses-bad">
@@ -151,7 +152,7 @@
   </div>
   <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:06 UTC (1.7 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:06 UTC (1.8 hr ago)</b>
      &middot; 1,036 rows
   </p>
 
@@ -187,7 +188,46 @@
   </div>
 </section>
 
+
+<section class="card" id="reports_directory">
+  <div class="card-head">
+    <h2>GUMBO Reports Directory</h2>
+    <a class="live-link" href="https://thebourque.com/fs/reports/">https://thebourque.com/fs/reports/</a>
+  </div>
+  <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
+  <p class="meta">
+    Last regenerated: <b>2026-08-18 19:49 UTC (7 min ago)</b>
+    
+  </p>
+
+  <h3>How it was generated</h3>
+    <ul class='methodology'>
+      <li>Reads this same registry file (config/public_reports_registry.json) -- the methodology/intended_uses/not_for text on this page and the admin tab that manages these reports (Model Manager -&gt; Report library -&gt; Published web pages) always come from one source, never two copies to keep in sync.</li>
+      <li>For each report, also reads its own output folder's _OPEN_*.txt (when present) to show a live 'last regenerated' timestamp and row count, so this directory never silently goes stale relative to what's actually published.</li>
+      <li>Pure static HTML -- no client-side JS, no data embedded beyond the plain-English text above.</li>
+      <li>Static snapshot: re-run scripts/gen_reports_directory_page.py to refresh (e.g. after editing this registry's text, or after any of the 3 reports above are regenerated), then rebuild+redeploy the hub site.</li>
+    </ul>
+
+  <div class="uses-grid">
+    <div class="uses-col uses-good">
+      <h3>&#10003; Intended uses</h3>
+    <ul class='uses'>
+      <li>The starting point for anyone new to these reports -- what exists, what each one answers, and where to click through.</li>
+      <li>Settling a 'can I use report X for Y' question by checking its Not for list before pulling a number into a deck or email.</li>
+      <li>Keeping the growing set of published reports self-documenting as more get added, instead of relying on tribal chat-history knowledge of how each was built.</li>
+    </ul>
+    </div>
+    <div class="uses-col uses-bad">
+      <h3>&#10007; Not for</h3>
+    <ul class='notfor'>
+      <li>Live data of any kind -- this page is documentation only; it links out to the reports themselves for actual numbers.</li>
+      <li>A substitute for reading a report's own on-page footer/caption, which always names its own model version and generation timestamp.</li>
+    </ul>
+    </div>
+  </div>
+</section>
+
 </main>
-<footer>Generated 2026-08-18 19:49:04 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-18 19:56:36 UTC &middot; unlisted, noindex, not in nav</footer>
 </body>
 </html>
