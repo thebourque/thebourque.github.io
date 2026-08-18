@@ -27,6 +27,8 @@
   h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); margin: 16px 0 6px; }
   ul.methodology { margin: 0; padding-left: 20px; font-size: 13.5px; }
   ul.methodology li { margin-bottom: 6px; }
+  .query-link { display: inline-block; margin: 2px 0 4px; font-size: 12.5px; color: var(--blue); text-decoration: none; }
+  .query-link:hover { text-decoration: underline; }
   .uses-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 6px; }
   .uses-col h3 { margin-top: 0; }
   .uses-good h3 { color: var(--good); }
@@ -56,6 +58,7 @@
   <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
   <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
   <a href="#reports_directory">GUMBO Reports Directory</a>
+  <a href="#report_queries">GUMBO Report Queries (code + plain English)</a>
 </nav>
 <main>
 
@@ -66,7 +69,7 @@
   </div>
   <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (1.9 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (2.1 hr ago)</b>
     
   </p>
 
@@ -79,6 +82,7 @@
       <li>'mi' in the CSV is the raw plan value (model_miles_to_build straight from the HouseholdData workbook's own 'Model Miles to Build' column) -- it is NOT Contrac-adjusted.</li>
       <li>Static snapshot: re-run scripts/_dump_wave1_josh_map.py to refresh, then rebuild+redeploy the hub site.</li>
     </ul>
+  <a class="query-link" href="/fs/report-queries/#josh_wave1_map">&rarr; See the actual query (code + plain English)</a>
 
   <div class="uses-grid">
     <div class="uses-col uses-good">
@@ -110,7 +114,7 @@
   </div>
   <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (1.8 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC (2.1 hr ago)</b>
     
   </p>
 
@@ -122,6 +126,7 @@
       <li>Colors CA polygons by live Contrac status (Complete / In Construction / Loaded / no match).</li>
       <li>Static snapshot: re-run scripts/gen_ut_box_map.py to refresh (requires ArcGIS Enterprise read access), then rebuild+redeploy the hub site.</li>
     </ul>
+  <a class="query-link" href="/fs/report-queries/#ground_truth_map">&rarr; See the actual query (code + plain English)</a>
 
   <div class="uses-grid">
     <div class="uses-col uses-good">
@@ -152,7 +157,7 @@
   </div>
   <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:06 UTC (1.8 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:06 UTC (2.1 hr ago)</b>
      &middot; 1,036 rows
   </p>
 
@@ -166,6 +171,7 @@
       <li>All 1,036+ rows are embedded inline in the page as JSON; every filter (parish/wave/project/Include), rollup, and the CSV export run entirely in the browser -- no server, nothing sent anywhere.</li>
       <li>Static snapshot: re-run scripts/gen_wave_contrac_remaining_page.py to refresh, then rebuild+redeploy the hub site.</li>
     </ul>
+  <a class="query-link" href="/fs/report-queries/#wave_contrac_remaining">&rarr; See the actual query (code + plain English)</a>
 
   <div class="uses-grid">
     <div class="uses-col uses-good">
@@ -196,7 +202,7 @@
   </div>
   <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 19:49 UTC (7 min ago)</b>
+    Last regenerated: <b>2026-08-18 19:56 UTC (15 min ago)</b>
     
   </p>
 
@@ -207,6 +213,7 @@
       <li>Pure static HTML -- no client-side JS, no data embedded beyond the plain-English text above.</li>
       <li>Static snapshot: re-run scripts/gen_reports_directory_page.py to refresh (e.g. after editing this registry's text, or after any of the 3 reports above are regenerated), then rebuild+redeploy the hub site.</li>
     </ul>
+  <a class="query-link" href="/fs/report-queries/#reports_directory">&rarr; See the actual query (code + plain English)</a>
 
   <div class="uses-grid">
     <div class="uses-col uses-good">
@@ -227,7 +234,45 @@
   </div>
 </section>
 
+
+<section class="card" id="report_queries">
+  <div class="card-head">
+    <h2>GUMBO Report Queries (code + plain English)</h2>
+    <a class="live-link" href="https://thebourque.com/fs/report-queries/">https://thebourque.com/fs/report-queries/</a>
+  </div>
+  <p class="purpose">For every report, the actual SQL/Python that produced its numbers, verbatim, with a plain-English walkthrough</p>
+  <p class="meta">
+    Last regenerated: <b>not yet generated</b>
+    
+  </p>
+
+  <h3>How it was generated</h3>
+    <ul class='methodology'>
+      <li>Reads this same registry's 'queries' array per report -- one or more {label, language, code, english} entries, each a verbatim excerpt copied from that report's actual generator script (or a sibling module it calls), not a paraphrase.</li>
+      <li>Pure static HTML -- one card per report, one code block + English paragraph per query entry, no client-side JS.</li>
+      <li>Static snapshot: re-run scripts/gen_report_queries_page.py after editing this registry's queries text (e.g. because a generator's real query changed), then rebuild+redeploy the hub site.</li>
+    </ul>
+  
+
+  <div class="uses-grid">
+    <div class="uses-col uses-good">
+      <h3>&#10003; Intended uses</h3>
+    <ul class='uses'>
+      <li>Answering 'how, exactly, did you get that number' for any figure on any of the reports.</li>
+      <li>Auditing a report's own methodology summary against the literal code that produced it.</li>
+    </ul>
+    </div>
+    <div class="uses-col uses-bad">
+      <h3>&#10007; Not for</h3>
+    <ul class='notfor'>
+      <li>A full copy of the generator script -- these are excerpts of the specific query/logic that matters, not the whole file.</li>
+      <li>Live data -- this is documentation of a mechanism, not a data feed.</li>
+    </ul>
+    </div>
+  </div>
+</section>
+
 </main>
-<footer>Generated 2026-08-18 19:56:36 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-18 20:12:17 UTC &middot; unlisted, noindex, not in nav</footer>
 </body>
 </html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GUMBO Report Queries — code + plain English</title>
+<style>
+  :root { --blue: #1565c0; --ink: #1a1a1a; --muted: #5a5a5a; --line: #ddd; --bg: #f6f8fa; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.6 -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; color: var(--ink); background: #fff; }
+  header { padding: 22px 24px 16px; border-bottom: 1px solid var(--line); background: var(--bg); }
+  header h1 { margin: 0 0 6px; font-size: 24px; }
+  header p { margin: 0; color: var(--muted); font-size: 14px; max-width: 900px; }
+  header .backlink { display: inline-block; margin-top: 10px; margin-right: 18px; font-size: 13px; }
+  nav.toc { padding: 14px 24px; border-bottom: 1px solid var(--line); font-size: 13px; }
+  nav.toc a { margin-right: 16px; color: var(--blue); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  main { padding: 8px 24px 60px; max-width: 980px; margin: 0 auto; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; margin: 22px 0; }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+  .card-head h2 { margin: 0; font-size: 19px; }
+  .live-link { font-size: 13px; color: var(--blue); text-decoration: none; }
+  .live-link:hover { text-decoration: underline; }
+  .purpose { color: var(--muted); font-size: 14px; margin: 6px 0 18px; }
+  .qblock { margin: 18px 0; }
+  .qlabel { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .qlabel .lang { font-weight: 400; color: var(--muted); font-size: 11.5px; text-transform: uppercase;
+    letter-spacing: .03em; margin-left: 8px; }
+  pre.code { background: #0d1117; color: #c9d1d9; border-radius: 8px; padding: 14px 16px;
+    overflow-x: auto; font: 12.5px/1.55 "SF Mono", Consolas, "Courier New", monospace; margin: 0 0 8px; }
+  pre.code code { white-space: pre; }
+  p.english { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; line-height: 1.55; }
+  .muted { color: var(--muted); font-size: 13px; }
+  footer { color: var(--muted); font-size: 11.5px; text-align: center; padding: 20px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <h1>GUMBO Report Queries</h1>
+  <p>
+    The actual code behind each number on the reports below &mdash; the real SQL query or
+    Python snippet, verbatim from the generator script, with a plain-English walkthrough
+    underneath. If a report's own "how it was generated" summary raised a "how, exactly?"
+    question, this is the answer.
+  </p>
+  <a class="backlink" href="/fs/reports/">&larr; Reports directory (methodology, intended uses, not-for)</a>
+  <a class="backlink" href="/fs/swyft/">Swyft launchpad</a>
+</header>
+<nav class="toc">
+  <a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a>
+  <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
+  <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
+  <a href="#reports_directory">GUMBO Reports Directory</a>
+  <a href="#report_queries">GUMBO Report Queries (code + plain English)</a>
+</nav>
+<main>
+
+<section class="card" id="josh_wave1_map">
+  <div class="card-head">
+    <h2>Wave-1 construction + NEPA risk map</h2>
+    <a class="live-link" href="https://thebourque.com/fs/josh-wave1/">https://thebourque.com/fs/josh-wave1/</a>
+  </div>
+  <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
+
+  <div class="qblock">
+    <div class="qlabel">1. Pull the Wave-1 project rows <span class="lang">sql</span></div>
+    <pre class="code"><code>SELECT r.subgroup, r.project_name, r.state, r.county,
+       r.households, r.households_to_be_built,
+       r.total_miles, r.miles_complete, r.model_miles_to_build,
+       r.build_start_date, r.build_end_date,
+       m.field_status, m.field_status_source, m.contrac_status_live,
+       m.ocius_project_id
+FROM raw_household_detail_v4 r
+JOIN v900_build_meta_v1 m
+  ON m.version_tag = r.version_tag AND m.row_id = r.row_id
+WHERE r.version_tag = ?
+  AND LOWER(TRIM(COALESCE(r.include_status, ''))) = 'yes'
+  AND m.wave_tag = 'wave1_tom_ben'
+ORDER BY r.build_start_date, r.subgroup</code></pre>
+    <p class="english">Pulls every project row tagged wave_tag='wave1_tom_ben' that is Include=Yes, for one pinned model version. The JOIN to v900_build_meta_v1 is on version_tag + row_id -- a row-grain join, not a name match -- so field_status and ocius_project_id line up exactly with the plan row they belong to. model_miles_to_build is a straight passthrough here; nothing in this query does math on it. That's the number that shows up as 'mi' in the CSV.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">2. NEPA overlap -- not SQL, a spatial join <span class="lang">python</span></div>
+    <pre class="code"><code>def nepa_join_for(tree: STRtree, geoms: list, meta: list[dict], poly) -&gt; dict:
+    approved_mi = 0.0
+    blocked_mi = 0.0
+    for idx in tree.query(poly):
+        idx = int(idx)
+        g = geoms[idx]
+        if not poly.intersects(g):
+            continue
+        rec = meta[idx]
+        if rec["approved"]:
+            approved_mi += rec["mi"]
+        else:
+            blocked_mi += rec["mi"]
+    ...</code></pre>
+    <p class="english">There's no SQL for the NEPA numbers -- it's a geometry operation. Each project's leftover polygon (after the parent/child dissolve) is tested against every NEPA route line using an STRtree spatial index: a fast bounding-box pre-filter (tree.query) followed by an exact intersects() check on the survivors. Every NEPA line that actually crosses the polygon adds its own Miles attribute to either the approved or blocked running total, depending on whether that NEPA package's ESAPTT status says Notice to Proceed Complete. That's nepa_approved_mi / nepa_blocked_mi in the CSV.</p>
+  </div>
+
+</section>
+
+
+<section class="card" id="ground_truth_map">
+  <div class="card-head">
+    <h2>GUMBO UT box map (GIS ground truth)</h2>
+    <a class="live-link" href="https://thebourque.com/fs/ground-truth-map/">https://thebourque.com/fs/ground-truth-map/</a>
+  </div>
+  <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
+
+  <div class="qblock">
+    <div class="qlabel">1. No SQL here -- counts are a lookup, not a live count <span class="lang">python</span></div>
+    <pre class="code"><code>def _counts(idx: dict[str, dict], *keys: str) -&gt; tuple[int, int]:
+    for key in keys:
+        row = idx.get(key)
+        if row:
+            return int(row.get("marketing_n") or 0), int(row.get("swyftloc_n") or 0)
+    return 0, 0</code></pre>
+    <p class="english">This map does not itself count marketing or SwyftLoc points inside a polygon. For every leftover shape it draws, it looks up marketing_n / swyftloc_n from data/ut_fsa_score/ut_fsa_score.json (built separately by scripts/report_ut_fsa_score.py) by matching the shape's own name or poly_id. The map is a drawing + lookup step, not the counting step.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">2. UT1 formula (the box's density-match score) <span class="lang">python</span></div>
+    <pre class="code"><code>def ut_score(marketing_n: int, swyftloc_n: int) -&gt; float | None:
+    if swyftloc_n &lt;= 0:
+        return None
+    return marketing_n / swyftloc_n</code></pre>
+    <p class="english">UT1 = marketing dots divided by SwyftLoc dots in the same box. Below 1 means the SwyftLoc (buildable) universe in that box is bigger than the marketing footprint -- thin take relative to what's there. swyftloc_n = 0 returns None ('n/a' on the map), not a divide-by-zero or a fake 0.</p>
+  </div>
+
+</section>
+
+
+<section class="card" id="wave_contrac_remaining">
+  <div class="card-head">
+    <h2>Wave / Contrac-adjusted remaining</h2>
+    <a class="live-link" href="https://thebourque.com/fs/wave-remaining/">https://thebourque.com/fs/wave-remaining/</a>
+  </div>
+  <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
+
+  <div class="qblock">
+    <div class="qlabel">1. Pull every project row for this model version <span class="lang">sql</span></div>
+    <pre class="code"><code>SELECT h.subgroup, h.project_name, TRIM(h.county) AS county, h.state,
+       UPPER(TRIM(h.include_status)) AS include_status,
+       h.total_miles, h.model_miles_to_build,
+       h.households, h.households_to_be_built, h.bead_passing,
+       h.build_start_date, h.build_end_date,
+       m.wave_tag, m.flags_json, m.field_status, m.field_status_source,
+       m.ocius_project_id
+FROM raw_household_detail_v4 h
+LEFT JOIN v900_build_meta_v1 m ON m.version_tag = h.version_tag AND m.row_id = h.row_id
+WHERE h.version_tag = ?
+  -- optional AND filters added here for parish / subgroup / include / wave
+ORDER BY m.wave_tag, county, h.subgroup</code></pre>
+    <p class="english">Pulls every row for the pinned model version -- a LEFT JOIN, so a project with no build-meta match still comes through (that's how parent/off-grid rows and Include=No rows make it into this report, unlike the Wave-1 map's inner JOIN + hard-coded Include=Yes filter). Any parish/subgroup/Include/wave filters the operator picks get appended as extra AND clauses with '?' placeholders -- never string-concatenated raw values.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">2. Batch-join live Contrac status <span class="lang">sql</span></div>
+    <pre class="code"><code>SELECT ocius_project_id, project_status, design_miles, miles_ml_built,
+       perc_complete, design_locations
+FROM contrack_roq_outcome_v1
+WHERE ingest_batch_id = 'CONTRACK_OUTCOME' AND ocius_project_id IN (...)</code></pre>
+    <p class="english">A second query, run once with every ocius_project_id from step 1 batched into a single IN (...) -- not one query per project. ingest_batch_id pins it to the one stable, fully-finished ingest job, so a half-completed re-ingest can never leak partial rows into this report.</p>
+  </div>
+
+
+  <div class="qblock">
+    <div class="qlabel">3. The proration itself (Python, not SQL) <span class="lang">python</span></div>
+    <pre class="code"><code>if c and status == "complete":
+    mi_remain_adj = max(0.0, total_mi - miles_ml_built)
+    hh_remain_adj = 0.0
+elif c and status == "in construction":
+    pct = perc_complete / 100.0
+    mi_remain_adj = max(0.0, total_mi - miles_ml_built)
+    hh_remain_adj = hh * (1.0 - pct)
+else:
+    mi_remain_adj = mi_remain_plan
+    hh_remain_adj = hh_remain_plan</code></pre>
+    <p class="english">Three cases, checked in order. Contrac says Complete -&gt; 0 households remaining (miles remaining = plan miles minus whatever Contrac's own miles_ml_built recorded, floored at 0 so a slightly-stale plan number can't go negative). Contrac says In Construction -&gt; households remaining scaled down by Contrac's own perc_complete. No Contrac ROQ job at all (a parent row, or a project not yet in the field system) -&gt; the Contrac-adjusted column is simply set equal to the plan column, unchanged.</p>
+  </div>
+
+</section>
+
+
+<section class="card" id="reports_directory">
+  <div class="card-head">
+    <h2>GUMBO Reports Directory</h2>
+    <a class="live-link" href="https://thebourque.com/fs/reports/">https://thebourque.com/fs/reports/</a>
+  </div>
+  <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
+
+  <div class="qblock">
+    <div class="qlabel">No SQL -- reads this registry file directly <span class="lang">python</span></div>
+    <pre class="code"><code>registry = load_registry()  # config/public_reports_registry.json
+statuses = {s.id: s for s in get_report_statuses(registry)}</code></pre>
+    <p class="english">This page has no database and no query -- it reads config/public_reports_registry.json (the same file behind Model Manager's admin tab) and each report's own _OPEN_*.txt file for a live timestamp/row count. Everything you're reading right now, including this sentence, is text stored in that one JSON file.</p>
+  </div>
+
+</section>
+
+
+<section class="card" id="report_queries">
+  <div class="card-head">
+    <h2>GUMBO Report Queries (code + plain English)</h2>
+    <a class="live-link" href="https://thebourque.com/fs/report-queries/">https://thebourque.com/fs/report-queries/</a>
+  </div>
+  <p class="purpose">For every report, the actual SQL/Python that produced its numbers, verbatim, with a plain-English walkthrough</p>
+<p class='muted'>(no query snippets recorded for this report yet)</p>
+</section>
+
+</main>
+<footer>Generated 2026-08-18 20:12:18 UTC &middot; unlisted, noindex, not in nav</footer>
+</body>
+</html>
