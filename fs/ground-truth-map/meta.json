@@ -1,0 +1,24 @@
+{
+  "complete": true,
+  "built_at_utc": "2026-08-18T13:18:27.308619+00:00",
+  "n_parish": 221,
+  "n_boxes": 8758,
+  "n_construction": 1478,
+  "n_commercial_punch": {
+    "punched": 711,
+    "dropped": 21,
+    "n_out": 1457
+  },
+  "n_empty_parked": 412,
+  "n_crumb_dropped": 43,
+  "n_marketing": 610603,
+  "n_swyftloc": 745172,
+  "swyftloc_dot_source": {
+    "layer": "Swyft_Model_Layers/FeatureServer/0 (model_locations)",
+    "release": "Release 08092026",
+    "held": true,
+    "note": "Red dots are release-scoped model_locations, NOT the unscoped Address/11 SwyftLoc identity GT. The 'S' count baked into each box shape is a separate, still-unscoped Address/11 GT number from ut_fsa_score.json -- the two are intentionally different scopes right now; do not treat dot density and the S label as the same measurement."
+  },
+  "note": "Polygon + parish outline. Marketing = blue dots. Red dots = model locations, held release (see swyftloc_dot_source). Construction leftover = children punched, then live FSA/Market punched out. 0/0 leftover with area still draws (dissolve). Sheet parks 0/0 rows. Not a fabric\u2194SwyftLoc match. AG/DA overlap is a footnote, not a nest.",
+  "html": "C:\\Projects\\gumbo_project\\data\\ut_fsa_score\\ut_box_map\\index.html"
+}

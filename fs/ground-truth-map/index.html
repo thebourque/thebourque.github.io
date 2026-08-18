@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8" />
+  <title>UT box map — polygon, parish, dots</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    #box {
+      position: fixed; top: 12px; left: 12px; z-index: 9999;
+      background: #fff; padding: 10px 12px; border: 1px solid #bbb;
+      font: 13px/1.35 sans-serif; width: 340px; max-height: calc(100vh - 24px);
+      overflow: auto;
+    }
+    #box h1 { font-size: 14px; margin: 0 0 6px; }
+    #box .muted { color: #555; font-size: 12px; }
+    #box label { display: block; margin-top: 4px; }
+    #box input[type=text] { width: 100%; box-sizing: border-box; margin-top: 6px; padding: 5px 7px; }
+    #hits { border: 1px solid #ddd; max-height: 180px; overflow: auto; display: none; margin-top: 4px; }
+    #hits button { display: block; width: 100%; text-align: left; border: 0; background: #fff;
+      padding: 5px 7px; cursor: pointer; font: 12px/1.3 sans-serif; }
+    #hits button:hover { background: #eee; }
+    .swatch { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+    .passing-label {
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.25);
+      border-radius: 3px; padding: 1px 4px; font: 11px/1.2 sans-serif; color: #212121;
+      white-space: nowrap; pointer-events: none; transform: translate(-50%, -50%);
+    }
+    #infoBtn {
+      display: inline-block; margin-left: 8px; width: 20px; height: 20px; border-radius: 50%;
+      border: 1px solid #1565c0; color: #1565c0; background: #fff; font: bold 12px/18px sans-serif;
+      text-align: center; cursor: pointer; vertical-align: 1px;
+    }
+    #infoBtn:hover { background: #e3f2fd; }
+    #infoOverlay {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.45);
+    }
+    #infoPanel {
+      background: #fff; max-width: 620px; width: 92%; margin: 6vh auto 0;
+      max-height: 84vh; overflow: auto; border-radius: 6px; padding: 18px 22px 20px;
+      font: 13px/1.5 sans-serif; color: #222; box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    }
+    #infoPanel h2 { font-size: 16px; margin: 0 0 8px; }
+    #infoPanel h3 { font-size: 13px; margin: 14px 0 4px; }
+    #infoPanel p { margin: 6px 0; }
+    #infoPanel code { background: #f1f1f1; padding: 1px 4px; border-radius: 3px; }
+    #infoPanel .stats {
+      background: #f6f8fa; border: 1px solid #ddd; border-radius: 4px;
+      padding: 8px 10px; margin-top: 6px; font: 12px/1.5 monospace;
+    }
+    #infoClose {
+      float: right; border: 0; background: none; font-size: 18px; cursor: pointer; color: #555;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="infoOverlay">
+    <div id="infoPanel">
+      <button id="infoClose" title="Close">&times;</button>
+      <h2>What got "eaten" by a child?</h2>
+      <p>GUMBO draws project areas at different sizes — <b>AG</b> (biggest, an approved
+      geography) down through <b>DA</b>, <b>CDA</b>, <b>SB</b>, to <b>CA</b> (smallest, the
+      actual construction job). A <b>parent</b> is any bigger shape; a <b>child</b> is a
+      smaller shape sitting inside it.</p>
+      <h3>The bite</h3>
+      <p>When engineering breaks a parent into smaller, more specific children (e.g. a DA
+      broken into CAs), those children now cover ground that used to belong to the parent.
+      The parent's <b>leftover</b> on this map is never the whole original outline — it's
+      <code>parent_polygon &minus; union(all overlapping child polygons)</code>. Whatever the
+      children now cover is subtracted out so it isn't drawn or counted twice.</p>
+      <p>If a DA has been fully carved into CAs, its leftover is an empty shape — that's a
+      good sign (engineering finished breaking it down), not a bug. A real leftover sliver
+      means unengineered ground nobody has claimed yet.</p>
+      <h3>Who eats whom</h3>
+      <p>Finest wins, working up the ladder: <b>CA</b> eats nothing (nothing is finer than it)
+      &rarr; <b>SB</b> eats CA &rarr; <b>CDA</b> eats SB+CA &rarr; <b>DA</b> eats CDA+SB+CA
+      &rarr; <b>AG</b> eats everything under it. A CA never loses ground to anyone; the
+      biggest umbrellas (AG, DA) get chewed on the most.</p>
+      <h3>A second bite, only on this map</h3>
+      <p>After the CA/CDA/DA/AG leftover is computed, live <b>FSA</b> and <b>marketing</b>
+      polygons take another bite (that ground has already gone commercial — no longer
+      "leftover to build," it's "already served"). Leftover shapes that lose everything to
+      this second bite are dropped from the map entirely; tiny slivers below a size floor
+      are dropped too as rounding noise, not real leftover.</p>
+      <div class="stats" id="infoStats">This build's punch stats loading&hellip;</div>
+      <p class="muted" style="margin-top:10px;color:#777">CA is never tested for exhaustion
+      by geometry — only Contrac <code>construction_area_status</code> tells you a CA is
+      Complete (core_rules_exhausted_parent). This dissolve/punch logic only touches parent
+      grains (SB/CDA/DA/AG) and the commercial (FSA/marketing) overlay.</p>
+    </div>
+  </div>
+  <div id="box">
+    <h1>Polygon + parish + dots <span id="infoBtn" title="What got eaten by a child?">?</span></h1>
+    <div class="muted">Red dots = model locations, held Release 08092026 (Swyft_Model_Layers/0, narrowed to the release GUMBO is holding position at — NOT the full Address/11 SwyftLoc identity book). Marketing = blue dots. Parish = outline. Leftover (CA/CDA/DA/AG) = children + live FSA punched out of the parent — each leftover shape carries its own "M{marketing} · S{swyftloc}" passing-count label, not hover-only; that S number is still the official unscoped Address/11 GT score (report_ut_fsa_score.py) and is a different scope than the red dots you see drawn. 0/0 leftover with area still draws so hover can leave FSA. CA color = Contrac construction_area_status (joined via GIS OciusPID) — green=Complete, orange=In Construction, blue=Loaded, dashed purple=no Contrac match. CA is never tested by geometry/dissolve (core_rules_exhausted_parent) — Contrac status is the only CA completion signal. Open via run_open_ut_box_map.bat (HTTP).</div>
+    <div style="margin-top:8px">
+      <label><input type="checkbox" id="lyParish" checked> Parish / county outline</label>
+      <label><input type="checkbox" id="lyFsa" checked> Live FSA polygon</label>
+      <label><input type="checkbox" id="lyCa" checked> CA leftover</label>
+      <label><input type="checkbox" id="lyStat" checked> CDA leftover</label>
+      <label><input type="checkbox" id="lyDa" checked> DA / AG leftover</label>
+      <label><input type="checkbox" id="lyLabels"> Passing counts on shapes (hover/click for detail instead)</label>
+      <label><input type="checkbox" id="lyMkt" checked> <span class="dot" style="background:#1565c0"></span>Marketing dots</label>
+      <label><input type="checkbox" id="lySwy" checked> <span class="dot" style="background:#c62828"></span>Model locations, Release 08092026 held (red)</label>
+    </div>
+    <div class="muted" style="margin-top:8px">
+      <span class="swatch" style="background:#90caf9"></span>FSA
+      <span class="swatch" style="background:#7b1fa2"></span>CA (no Contrac match)
+      <span class="swatch" style="background:#2e7d32"></span>CA Complete
+      <span class="swatch" style="background:#ef6c00"></span>CA In Construction
+      <span class="swatch" style="background:#0277bd"></span>CA Loaded
+      <span class="swatch" style="background:#ef6c00"></span>CDA
+      <span class="swatch" style="background:#2e7d32"></span>DA
+      <span class="swatch" style="background:#00695c"></span>AG
+    </div>
+    <input id="find" type="text" placeholder="Type box or parish" autocomplete="off" />
+    <div id="hits"></div>
+    <div id="stat" class="muted" style="margin-top:6px"></div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map', { preferCanvas: false }).setView([31.5, -92.4], 7);
+    map.createPane('leftoverPane');
+    map.getPane('leftoverPane').style.zIndex = 410;
+    map.createPane('fsaPane');
+    map.getPane('fsaPane').style.zIndex = 450;
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OSM &copy; CARTO', maxZoom: 18
+    }).addTo(map);
+
+    const infoBtn = document.getElementById('infoBtn');
+    const infoOverlay = document.getElementById('infoOverlay');
+    infoBtn.addEventListener('click', function () { infoOverlay.style.display = 'block'; });
+    infoOverlay.addEventListener('click', function (e) {
+      if (e.target === infoOverlay) infoOverlay.style.display = 'none';
+    });
+    document.getElementById('infoClose').addEventListener('click', function () {
+      infoOverlay.style.display = 'none';
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') infoOverlay.style.display = 'none';
+    });
+
+    let parishLayer, leftoverLayer, fsaLayer, boxLayer;
+    const labelLayer = L.layerGroup().addTo(map);
+    window.__utMap = map;
+    let marketing = new Float32Array(0);
+    let swyft = new Float32Array(0);
+    const catalog = [];
+
+    const canvas = L.DomUtil.create('canvas', 'leaflet-zoom-animated');
+    map.createPane('dotPane');
+    map.getPane('dotPane').style.zIndex = 460;
+    map.getPane('dotPane').style.pointerEvents = 'none';
+    map.getPane('dotPane').appendChild(canvas);
+    function sizeCanvas() {
+      const s = map.getSize();
+      canvas.width = s.x;
+      canvas.height = s.y;
+      L.DomUtil.setPosition(canvas, map.containerPointToLayerPoint([0, 0]));
+    }
+    function stepForZoom(z) {
+      if (z >= 12) return 1;
+      if (z >= 10) return 2;
+      if (z >= 8) return 8;
+      return 24;
+    }
+    function drawDots(arr, color, show) {
+      if (!show || !arr.length) return;
+      const ctx = canvas.getContext('2d');
+      const b = map.getBounds().pad(0.05);
+      const z = map.getZoom();
+      const step = stepForZoom(z);
+      const r = z < 9 ? 1.2 : z < 12 ? 2 : 2.6;
+      ctx.fillStyle = color;
+      for (let i = 0; i < arr.length; i += 2 * step) {
+        const lat = arr[i], lon = arr[i + 1];
+        if (lat < b.getSouth() || lat > b.getNorth() || lon < b.getWest() || lon > b.getEast()) continue;
+        const p = map.latLngToContainerPoint([lat, lon]);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    function redrawDots() {
+      sizeCanvas();
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawDots(marketing, 'rgba(21,101,192,0.45)', document.getElementById('lyMkt').checked);
+      drawDots(swyft, 'rgba(198,40,40,0.70)', document.getElementById('lySwy').checked);
+    }
+    map.on('moveend zoomend resize', redrawDots);
+
+    function grainOn(g) {
+      if (g === 'fsa') return document.getElementById('lyFsa').checked;
+      if (g === 'ca') return document.getElementById('lyCa').checked;
+      if (g === 'stat_area') return document.getElementById('lyStat').checked;
+      if (g === 'da' || g === 'ag') return document.getElementById('lyDa').checked;
+      return true;
+    }
+    const CA_STATUS_COLOR = {
+      'Complete': '#2e7d32',
+      'In Construction': '#ef6c00',
+      'Loaded': '#0277bd'
+    };
+    function caColor(f) {
+      const st = f.properties.contrac_status;
+      return (st && CA_STATUS_COLOR[st]) || f.properties.fill;
+    }
+    function restyleBoxes() {
+      const showLabels = document.getElementById('lyLabels').checked;
+      [leftoverLayer, fsaLayer].forEach(function (grp) {
+        if (!grp) return;
+        grp.eachLayer(function (lyr) {
+          const g = (lyr.feature && lyr.feature.properties && lyr.feature.properties.grain) || '';
+          const on = grainOn(g);
+          const c = (g === 'ca') ? caColor(lyr.feature) : (lyr.feature.properties.fill || '#78909c');
+          lyr.setStyle({
+            fillColor: c,
+            color: c,
+            weight: on ? 1 : 0,
+            dashArray: (g === 'ca' && !lyr.feature.properties.contrac_status) ? '3,3' : null,
+            fillOpacity: on ? (g === 'fsa' ? 0.18 : 0.32) : 0,
+            opacity: on ? 0.9 : 0,
+            interactive: on
+          });
+          if (lyr._passingLabel) {
+            if (on && showLabels) {
+              if (!labelLayer.hasLayer(lyr._passingLabel)) labelLayer.addLayer(lyr._passingLabel);
+            } else if (labelLayer.hasLayer(lyr._passingLabel)) {
+              labelLayer.removeLayer(lyr._passingLabel);
+            }
+          }
+        });
+      });
+    }
+    function flyToName(name) {
+      [leftoverLayer, fsaLayer].forEach(function (grp) {
+        if (!grp) return;
+        grp.eachLayer(function (lyr) {
+          const p = lyr.feature && lyr.feature.properties;
+          if (p && p.name === name) {
+            map.fitBounds(lyr.getBounds(), { maxZoom: 12, padding: [30, 30] });
+          }
+        });
+      });
+    }
+
+    Promise.all([
+      fetch('parish.geojson').then(r => r.json()),
+      fetch('boxes.geojson').then(r => r.json()),
+      fetch('marketing.bin').then(r => r.arrayBuffer()),
+      fetch('swyftloc.bin').then(r => r.arrayBuffer()),
+      fetch('meta.json').then(r => r.json())
+    ]).then(([parish, boxes, mktBuf, swyBuf, meta]) => {
+      marketing = new Float32Array(mktBuf);
+      swyft = new Float32Array(swyBuf);
+      parishLayer = L.geoJSON(parish, {
+        style: { color: '#37474f', weight: 1.2, fill: false }
+      }).addTo(map);
+      function styleBox(f) {
+        const isCa = f.properties.grain === 'ca';
+        const c = isCa ? caColor(f) : f.properties.fill;
+        return {
+          fillColor: c,
+          color: c,
+          weight: 1,
+          dashArray: (isCa && !f.properties.contrac_status) ? '3,3' : null,
+          fillOpacity: f.properties.grain === 'fsa' ? 0.18 : 0.32,
+          fillRule: 'evenodd'
+        };
+      }
+      function onBox(f, lyr) {
+        const p = f.properties || {};
+        catalog.push({ name: p.name, parish: p.parish || '', grain: p.grain });
+        const caLine = (p.grain === 'ca')
+          ? ('<br>Contrac: ' + (p.contrac_status || 'no OciusPID match — not Contrac-joinable'))
+          : '';
+        const detail = (p.name || '') + '<br>' + (p.parish || '') + '<br>' +
+          (p.grain || '') + ' · mkt ' + (p.marketing_n || 0) +
+          ' · swyft ' + (p.swyftloc_n || 0) +
+          ' · UT1 ' + (p.ut1 == null ? 'n/a' : p.ut1) + caLine;
+        lyr.bindTooltip(detail, { sticky: true });
+        // Passing counts (marketing_n / swyftloc_n) shown as a permanent
+        // label on the shape itself — not hover-only — for the
+        // construction-leftover grains (CA/CDA/DA/AG). FSA is left off this
+        // to avoid ~7k overlapping labels; its counts stay hover-only above.
+        if (p.grain !== 'fsa') {
+          lyr.bindPopup(detail);
+          try {
+            const c = lyr.getBounds().getCenter();
+            const html = 'M' + (p.marketing_n || 0) + ' · S' + (p.swyftloc_n || 0);
+            lyr._passingLabel = L.marker(c, {
+              icon: L.divIcon({ className: 'passing-label', html: html, iconSize: null }),
+              interactive: false,
+              pane: 'leftoverPane'
+            });
+          } catch (e) { /* degenerate geometry — skip label, polygon still renders */ }
+        }
+      }
+      const leftoverFC = {
+        type: 'FeatureCollection',
+        features: (boxes.features || []).filter(f => (f.properties || {}).grain !== 'fsa')
+      };
+      const fsaFC = {
+        type: 'FeatureCollection',
+        features: (boxes.features || []).filter(f => (f.properties || {}).grain === 'fsa')
+      };
+      leftoverLayer = L.geoJSON(leftoverFC, {
+        pane: 'leftoverPane',
+        style: styleBox,
+        onEachFeature: onBox
+      }).addTo(map);
+      fsaLayer = L.geoJSON(fsaFC, {
+        pane: 'fsaPane',
+        style: styleBox,
+        onEachFeature: onBox
+      }).addTo(map);
+      boxLayer = L.featureGroup([leftoverLayer, fsaLayer]);
+      if (boxLayer.getBounds().isValid()) map.fitBounds(boxLayer.getBounds(), { padding: [20, 20] });
+      document.getElementById('stat').textContent =
+        'boxes ' + (meta.n_boxes || boxes.features.length) +
+        ' · parish ' + (meta.n_parish || '') +
+        ' · marketing dots ' + (meta.n_marketing || marketing.length / 2) +
+        ' · SwyftLoc reds ' + (meta.n_swyftloc || swyft.length / 2);
+      window.__utBoxMap = { ready: true, n: (meta.n_boxes || boxes.features.length) };
+      const cp = meta.n_commercial_punch || {};
+      document.getElementById('infoStats').innerHTML =
+        'This build (' + (meta.built_at_utc || '') + '):<br>' +
+        (meta.n_construction || 0) + ' CA/CDA/DA/AG leftover shapes after the parent/child bite<br>' +
+        (cp.punched || 0) + ' lost part of themselves to the FSA/marketing bite<br>' +
+        (cp.dropped || 0) + ' were eaten down to nothing and dropped<br>' +
+        (meta.n_crumb_dropped || 0) + ' tiny slivers dropped as rounding noise<br>' +
+        (meta.n_empty_parked || 0) + ' kept at 0/0 (no marketing, no SwyftLoc) — parked, still drawn<br>' +
+        '&rarr; ' + (cp.n_out || meta.n_boxes || 0) + ' leftover shapes actually drawn on this map';
+      redrawDots();
+      restyleBoxes();
+      ['lyParish','lyFsa','lyCa','lyStat','lyDa','lyLabels','lyMkt','lySwy'].forEach(id => {
+        document.getElementById(id).addEventListener('change', function () {
+          if (id === 'lyParish') {
+            if (this.checked) parishLayer.addTo(map); else map.removeLayer(parishLayer);
+          } else if (id === 'lyMkt' || id === 'lySwy') {
+            redrawDots();
+          } else {
+            restyleBoxes();
+          }
+        });
+      });
+      const inp = document.getElementById('find');
+      const hits = document.getElementById('hits');
+      inp.addEventListener('input', function () {
+        const q = inp.value.trim().toLowerCase();
+        hits.innerHTML = '';
+        if (q.length < 2) { hits.style.display = 'none'; return; }
+        const found = catalog.filter(c =>
+          (c.name || '').toLowerCase().includes(q) ||
+          (c.parish || '').toLowerCase().includes(q)
+        ).slice(0, 30);
+        found.forEach(c => {
+          const b = document.createElement('button');
+          b.textContent = c.name + ' · ' + (c.parish || '');
+          b.onclick = function () { flyToName(c.name); hits.style.display = 'none'; };
+          hits.appendChild(b);
+        });
+        hits.style.display = found.length ? 'block' : 'none';
+      });
+    }).catch(err => {
+      window.__utBoxMap = { ready: false, error: String(err) };
+      document.getElementById('stat').textContent =
+        'Load failed: ' + err +
+        ' — run run_open_ut_box_map.bat (HTTP). file:// cannot fetch boxes.geojson.';
+    });
+  </script>
+</body>
+</html>
