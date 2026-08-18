@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#faf9f7">
+  <title>M/Y Fair Skies — Cap Cana galley prefs</title>
+  <style>
+    :root { --bg:#faf9f7; --text:#1a1a1a; --muted:#555; --border:#e4e0da; --card:#fff; --accent:#0b57d0; --ok:#0f6b3c; --bad:#a11; }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body {
+      margin:0; min-height:100dvh;
+      font-family:system-ui,-apple-system,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.45;
+    }
+    .wrap {
+      width:100%; max-width:40rem; margin:0 auto;
+      padding:1rem max(1rem, env(safe-area-inset-left)) 3rem max(1rem, env(safe-area-inset-right));
+    }
+    h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(1.25rem, 4vw, 1.55rem); margin:0 0 .25rem; }
+    .who { color:var(--muted); margin:0 0 1rem; font-size:.95rem; }
+    .block {
+      margin:0 0 1rem; padding:1rem; background:var(--card);
+      border:1px solid var(--border); border-radius:8px;
+    }
+    h2 { font-size:1.05rem; margin:0 0 .55rem; }
+    .hint { color:var(--muted); font-size:.9rem; margin:0 0 .75rem; }
+    label.field { display:block; margin:0 0 .75rem; font-size:.95rem; }
+    input[type=text], textarea {
+      display:block; width:100%; margin-top:.35rem;
+      font-size:16px; padding:.7rem .75rem; border:1px solid var(--border);
+      border-radius:8px; background:#fff; color:var(--text);
+    }
+    textarea { min-height:4.5rem; resize:vertical; }
+    .chips { display:grid; grid-template-columns:1fr 1fr; gap:.45rem .55rem; }
+    .chips.one { grid-template-columns:1fr; }
+    .chk {
+      display:flex; align-items:flex-start; gap:.55rem;
+      min-height:44px; padding:.45rem .5rem; border:1px solid var(--border);
+      border-radius:8px; background:#fff; font-size:.92rem;
+    }
+    .chk input { width:1.15rem; height:1.15rem; margin-top:.15rem; flex:0 0 auto; }
+    .es { color:var(--muted); font-size:.85rem; }
+    .banner {
+      display:none; margin:0 0 1rem; padding:.75rem .9rem; border-radius:8px;
+      font-size:.95rem;
+    }
+    .banner.show { display:block; }
+    .banner.ok { background:#e8f6ee; color:var(--ok); }
+    .banner.bad { background:#fdecea; color:var(--bad); }
+    button.save {
+      appearance:none; border:0; border-radius:10px;
+      background:var(--accent); color:#fff; font-size:1rem;
+      font-weight:600; padding:.9rem 1.2rem; min-height:48px;
+      width:100%; cursor:pointer;
+    }
+    button.save:disabled { opacity:.55; cursor:default; }
+    .sign { margin-top:1rem; color:var(--muted); font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Galley prefs — M/Y Fair Skies</h1>
+    <p class="who">Cap Cana · T&amp;E · UTBC · one form per person</p>
+    <div id="banner" class="banner" role="status"></div>
+
+    <section class="block">
+      <label class="field">Name / Nombre
+        <input id="guest_name" type="text" autocomplete="name" required placeholder="e.g. Daisy">
+      </label>
+      <label class="field">Allergies / intolerances — Alergias / intolerancias
+        <textarea id="allergies" placeholder="Skip if none / Omitan si no hay"></textarea>
+      </label>
+    </section>
+
+    <section class="block" data-group="coffee_when">
+      <h2>Coffee — when / Café — a qué hora</h2>
+      <p class="hint">Mark every window that fits you. One sheet = one person.</p>
+      <div class="chips" id="coffee_when"></div>
+    </section>
+
+    <section class="block" data-group="coffee_how">
+      <h2>Coffee — how / Café — cómo</h2>
+      <div class="chips" id="coffee_how"></div>
+    </section>
+
+    <section class="block" data-group="wine">
+      <h2>Wine / Vino</h2>
+      <div class="chips one" id="wine"></div>
+      <label class="field">Bottles you care about / Botellas que importan
+        <textarea id="wine_note" rows="2"></textarea>
+      </label>
+    </section>
+
+    <section class="block" data-group="beer">
+      <h2>Beer / Cerveza</h2>
+      <div class="chips" id="beer"></div>
+    </section>
+
+    <section class="block" data-group="spirits">
+      <h2>Spirits / Licores</h2>
+      <div class="chips" id="spirits"></div>
+      <label class="field">Cocktails you drink / Cócteles que toman
+        <textarea id="spirit_note" rows="2"></textarea>
+      </label>
+    </section>
+
+    <section class="block" data-group="soft">
+      <h2>Soft drinks / Refrescos</h2>
+      <div class="chips" id="soft"></div>
+    </section>
+
+    <section class="block" data-group="mixers">
+      <h2>Mixers</h2>
+      <div class="chips" id="mixers"></div>
+    </section>
+
+    <section class="block" data-group="juices">
+      <h2>Fruit juices / Jugos</h2>
+      <div class="chips" id="juices"></div>
+    </section>
+
+    <section class="block" data-group="waters">
+      <h2>Specialty waters / Aguas</h2>
+      <div class="chips" id="waters"></div>
+    </section>
+
+    <section class="block" data-group="creamers">
+      <h2>Creamers</h2>
+      <div class="chips" id="creamers"></div>
+    </section>
+
+    <section class="block" data-group="sugars">
+      <h2>Sugars / Azúcares</h2>
+      <div class="chips" id="sugars"></div>
+    </section>
+
+    <section class="block" data-group="snacks">
+      <h2>Snacks</h2>
+      <div class="chips" id="snacks"></div>
+      <label class="field">Brand or flavor / Marca o sabor
+        <textarea id="snack_note" rows="2"></textarea>
+      </label>
+    </section>
+
+    <section class="block" data-group="ice_cream">
+      <h2>Ice cream / Helado</h2>
+      <div class="chips" id="ice_cream"></div>
+    </section>
+
+    <button class="save" id="save_btn" type="button">Save prefs / Guardar</button>
+    <p class="sign">Thanks,<br>Uncle Troy's Boat Creature</p>
+  </div>
+
+  <script>
+    const API = "https://sms.thebourque.com/te/prefs/galley";
+    const GROUPS = {
+      coffee_when: [
+        ["early", "Early (before 7) / Temprano"],
+        ["morning", "Morning (7–10) / Mañana"],
+        ["midday", "Midday / Mediodía"],
+        ["afternoon", "Afternoon / Tarde"],
+        ["after_dinner", "After dinner / Después de la cena"],
+        ["anytime", "Anytime if on / Cuando haya"]
+      ],
+      coffee_how: [
+        ["black", "Black / Negro"],
+        ["milk", "Milk / Leche"],
+        ["cream", "Cream / Crema"],
+        ["sweet_cream", "Sweet cream / Crema dulce"],
+        ["sugar", "Sugar / Azúcar"],
+        ["equal", "Equal"],
+        ["sweetnlow", "Sweet'n Low"],
+        ["stevia", "Stevia"],
+        ["none", "I don't drink coffee / No tomo café"]
+      ],
+      wine: [
+        ["white", "White (dry / oak) / Blanco"],
+        ["rose", "Rosé / Rosado"],
+        ["sparkling", "Sparkling / Cava / Prosecco"],
+        ["light_red", "Light red / Tinto liviano"],
+        ["big_red", "Bigger red / Tinto más cuerpo"],
+        ["sweet", "Sweet / dessert / Dulce"],
+        ["skip", "Skip wine / Paso el vino"]
+      ],
+      beer: [
+        ["medalla", "Medalla"],
+        ["presidente", "Presidente"],
+        ["corona", "Corona"],
+        ["modelo", "Modelo"],
+        ["modelo_negro", "Modelo Negro"],
+        ["heineken", "Heineken"],
+        ["coors", "Coors / Coors Light"],
+        ["michelob", "Michelob / Ultra"],
+        ["red_stripe", "Red Stripe"],
+        ["seltzer", "Seltzer / White Claw"],
+        ["none", "None / Nada"]
+      ],
+      spirits: [
+        ["rum", "Rum / Ron"],
+        ["tequila", "Tequila / mezcal"],
+        ["whiskey", "Whiskey / bourbon / Scotch"],
+        ["gin", "Gin / Ginebra"],
+        ["vodka", "Vodka"],
+        ["none", "None / Nada"]
+      ],
+      soft: [
+        ["coke", "Coca-Cola"],
+        ["diet_coke", "Diet Coke / Coca Diet"],
+        ["coke_zero", "Coke Zero / Coca Zero"],
+        ["sprite", "Sprite"],
+        ["ginger_ale", "Ginger ale"],
+        ["none", "None / Nada"]
+      ],
+      mixers: [
+        ["tonic", "Tonic / Tónica"],
+        ["diet_tonic", "Diet tonic / Tónica diet"],
+        ["club", "Club soda"],
+        ["cranberry", "Cranberry"],
+        ["pineapple", "Pineapple / Piña"],
+        ["orange", "Orange / Naranja"]
+      ],
+      juices: [
+        ["oj", "Orange / Naranja"],
+        ["pineapple", "Pineapple / Piña"],
+        ["cranberry", "Cranberry"],
+        ["grapefruit", "Grapefruit / Toronja"],
+        ["none", "None / Nada"]
+      ],
+      waters: [
+        ["still", "Still / Sin gas"],
+        ["sparkling", "Sparkling / Con gas"],
+        ["perrier", "Perrier"],
+        ["topo", "Topo Chico"],
+        ["coconut", "Coconut water / Agua de coco"]
+      ],
+      creamers: [
+        ["half", "Half-and-half"],
+        ["sweet", "Sweet cream / Crema dulce"],
+        ["oat", "Oat / Avena"],
+        ["almond", "Almond / Almendra"],
+        ["none", "None extra / Nada extra"]
+      ],
+      sugars: [
+        ["white", "White sugar / Azúcar blanca"],
+        ["brown", "Brown sugar / Azúcar morena"],
+        ["equal", "Equal"],
+        ["sweetnlow", "Sweet'n Low"],
+        ["stevia", "Stevia"]
+      ],
+      snacks: [
+        ["chips", "Chips / salty / Salado"],
+        ["nuts", "Nuts / Nueces"],
+        ["cheese", "Cheese / crackers"],
+        ["chocolate", "Chocolate / sweet"],
+        ["cookies", "Cookies / Galletas"],
+        ["fruit", "Fruit / Fruta"]
+      ],
+      ice_cream: [
+        ["vanilla", "Vanilla / Vainilla"],
+        ["chocolate", "Chocolate"],
+        ["strawberry", "Strawberry / Fresa"],
+        ["coffee", "Coffee / Café"],
+        ["none", "Skip ice cream / Paso"]
+      ]
+    };
+
+    function fillGroup(id, opts) {
+      const host = document.getElementById(id);
+      host.innerHTML = opts.map(([key, label]) => (
+        `<label class="chk"><input type="checkbox" value="${key}"><span>${label}</span></label>`
+      )).join("");
+    }
+
+    Object.entries(GROUPS).forEach(([id, opts]) => fillGroup(id, opts));
+
+    function picked(id) {
+      return Array.from(document.querySelectorAll("#" + id + " input:checked")).map((el) => el.value);
+    }
+
+    function showBanner(text, kind) {
+      const el = document.getElementById("banner");
+      el.textContent = text;
+      el.className = "banner show " + kind;
+    }
+
+    document.getElementById("save_btn").addEventListener("click", async () => {
+      const name = (document.getElementById("guest_name").value || "").trim();
+      if (name.length < 2) {
+        showBanner("Name required / Nombre obligatorio", "bad");
+        return;
+      }
+      const answers = {
+        allergies: (document.getElementById("allergies").value || "").trim(),
+        coffee_when: picked("coffee_when"),
+        coffee_how: picked("coffee_how"),
+        wine: picked("wine"),
+        wine_note: (document.getElementById("wine_note").value || "").trim(),
+        beer: picked("beer"),
+        spirits: picked("spirits"),
+        spirit_note: (document.getElementById("spirit_note").value || "").trim(),
+        soft: picked("soft"),
+        mixers: picked("mixers"),
+        juices: picked("juices"),
+        waters: picked("waters"),
+        creamers: picked("creamers"),
+        sugars: picked("sugars"),
+        snacks: picked("snacks"),
+        snack_note: (document.getElementById("snack_note").value || "").trim(),
+        ice_cream: picked("ice_cream")
+      };
+      const btn = document.getElementById("save_btn");
+      btn.disabled = true;
+      try {
+        const res = await fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, answers })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) {
+          showBanner((data && data.error) || "Save failed / No se guardó", "bad");
+          btn.disabled = false;
+          return;
+        }
+        showBanner("Saved. The galley has your marks. / Guardado. La galera ya tiene tus marcas.", "ok");
+      } catch (err) {
+        showBanner("Network error / Error de red", "bad");
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
