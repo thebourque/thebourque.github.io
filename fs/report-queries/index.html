@@ -172,18 +172,22 @@ WHERE ingest_batch_id = 'CONTRACK_OUTCOME' AND ocius_project_id IN (...)</code><
 
 
   <div class="qblock">
-    <div class="qlabel">3. The proration itself (Python, not SQL) <span class="lang">python</span></div>
+    <div class="qlabel">3. The mainline/non-mainline split itself (Python, not SQL) <span class="lang">python</span></div>
     <pre class="code"><code>if c and status == "complete":
     mi_remain_adj = max(0.0, total_mi - miles_ml_built)
     hh_remain_adj = 0.0
 elif c and status == "in construction":
     pct = perc_complete / 100.0
+    # Mainline (miles) is allowed to move early via the Contrac ROQ overlay.
     mi_remain_adj = max(0.0, total_mi - miles_ml_built)
-    hh_remain_adj = hh * (1.0 - pct)
+    # Households/BEAD are non-mainline ("Access") -- frozen at plan until
+    # Contrac reports Complete. perc_complete is a MILEAGE completion signal,
+    # not a passings/CPE/drop signal -- it must never scale households.
+    hh_remain_adj = hh_remain_plan
 else:
     mi_remain_adj = mi_remain_plan
     hh_remain_adj = hh_remain_plan</code></pre>
-    <p class="english">Three cases, checked in order. Contrac says Complete -&gt; 0 households remaining (miles remaining = plan miles minus whatever Contrac's own miles_ml_built recorded, floored at 0 so a slightly-stale plan number can't go negative). Contrac says In Construction -&gt; households remaining scaled down by Contrac's own perc_complete. No Contrac ROQ job at all (a parent row, or a project not yet in the field system) -&gt; the Contrac-adjusted column is simply set equal to the plan column, unchanged.</p>
+    <p class="english">Three cases, checked in order. Contrac says Complete -&gt; 0 households remaining (miles remaining = plan miles minus whatever Contrac's own miles_ml_built recorded, floored at 0 so a slightly-stale plan number can't go negative). Contrac says In Construction -&gt; miles remaining gets the same ROQ-overlay treatment as Complete (mainline is explicitly allowed to move early, core_rules_plan_field_remainder), but households remaining is left at the plan value, unchanged -- non-mainline categories are frozen until Contrac reports the job fully Complete, and Contrac's perc_complete is a mileage-build percentage, not a households/passings completion signal. No Contrac ROQ job at all (a parent row, or a project not yet in the field system) -&gt; the Contrac-adjusted column is simply set equal to the plan column, unchanged, for both miles and households. (2026-08-18: this replaced an earlier version that wrongly scaled households by perc_complete in the In Construction branch -- a real canon violation, fixed same day.)</p>
   </div>
 
 </section>
@@ -261,6 +265,6 @@ statuses = {s.id: s for s in get_report_statuses(registry)}</code></pre>
 </section>
 
 </main>
-<footer>Generated 2026-08-18 21:17:14 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-19 00:40:32 UTC &middot; unlisted, noindex, not in nav</footer>
 </body>
 </html>
