@@ -70,7 +70,7 @@
   </div>
   <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (6.6 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC <span class="age-live" data-ts="2026-08-18T18:05:21Z">(&hellip;)</span></b>
     
   </p>
 
@@ -115,7 +115,7 @@
   </div>
   <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC (6.6 hr ago)</b>
+    Last regenerated: <b>2026-08-18 18:05 UTC <span class="age-live" data-ts="2026-08-18T18:05:51Z">(&hellip;)</span></b>
     
   </p>
 
@@ -158,7 +158,7 @@
   </div>
   <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-19 00:31 UTC (8 min ago)</b>
+    Last regenerated: <b>2026-08-19 13:54 UTC <span class="age-live" data-ts="2026-08-19T13:54:05Z">(&hellip;)</span></b>
      &middot; 1,036 rows
   </p>
 
@@ -204,7 +204,7 @@
   </div>
   <p class="purpose">Wave-1 projects with passings remaining to build: Contrac-adjusted remaining, NEPA overlap, BEAD complete/remaining by give-back Reason Code, and atomic-BOQ labor/material $ remaining</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-19 00:40 UTC (0 min ago)</b>
+    Last regenerated: <b>2026-08-19 00:40 UTC <span class="age-live" data-ts="2026-08-19T00:40:17Z">(&hellip;)</span></b>
      &middot; 254 rows
   </p>
 
@@ -250,7 +250,7 @@
   </div>
   <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 21:17 UTC (3.4 hr ago)</b>
+    Last regenerated: <b>2026-08-19 00:40 UTC <span class="age-live" data-ts="2026-08-19T00:40:25Z">(&hellip;)</span></b>
     
   </p>
 
@@ -258,7 +258,7 @@
     <ul class='methodology'>
       <li>Reads this same registry file (config/public_reports_registry.json) -- the methodology/intended_uses/not_for text on this page and the admin tab that manages these reports (Model Manager -&gt; Report library -&gt; Published web pages) always come from one source, never two copies to keep in sync.</li>
       <li>For each report, also reads its own output folder's _OPEN_*.txt (when present) to show a live 'last regenerated' timestamp and row count, so this directory never silently goes stale relative to what's actually published.</li>
-      <li>Pure static HTML -- no client-side JS, no data embedded beyond the plain-English text above.</li>
+      <li>Each 'Last regenerated' line shows the absolute UTC timestamp (baked in at generation time -- reliable, never changes) plus a small live '(...ago)' span computed by a tiny vanilla-JS snippet that recalculates from the visitor's own clock on load and every 60s (2026-08-19 fix -- the relative text used to be computed once in Python and frozen into the static HTML, so it silently lied more and more the longer the page sat unregenerated). No CDN/library dependency; this is the only client-side JS on the page.</li>
       <li>Static snapshot: re-run scripts/gen_reports_directory_page.py to refresh (e.g. after editing this registry's text, or after any of the 3 reports above are regenerated), then rebuild+redeploy the hub site.</li>
     </ul>
   <a class="query-link" href="/fs/report-queries/#reports_directory">&rarr; See the actual query (code + plain English)</a>
@@ -290,7 +290,7 @@
   </div>
   <p class="purpose">For every report, the actual SQL/Python that produced its numbers, verbatim, with a plain-English walkthrough</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 21:17 UTC (3.4 hr ago)</b>
+    Last regenerated: <b>2026-08-19 01:02 UTC <span class="age-live" data-ts="2026-08-19T01:02:07Z">(&hellip;)</span></b>
     
   </p>
 
@@ -321,6 +321,32 @@
 </section>
 
 </main>
-<footer>Generated 2026-08-19 00:40:25 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-19 22:12:59 UTC &middot; unlisted, noindex, not in nav</footer>
+<script>
+// Recompute every "(...ago)" span from the visitor's own clock -- the
+// absolute UTC timestamp next to it (baked in at generation time) is the
+// reliable anchor; this relative text must never be frozen server-side
+// (a static page left open, or just viewed hours after generation, would
+// otherwise keep showing a stale "0 min ago" forever). No CDN/library dep.
+(function () {
+  function bucketAgeText(ms) {
+    var hours = ms / 3600000;
+    if (hours < 1) return Math.floor(ms / 60000) + " min ago";
+    if (hours < 48) return hours.toFixed(1) + " hr ago";
+    return Math.floor(ms / 86400000) + " days ago";
+  }
+  function refreshAges() {
+    var spans = document.querySelectorAll(".age-live[data-ts]");
+    var now = Date.now();
+    for (var i = 0; i < spans.length; i++) {
+      var ts = Date.parse(spans[i].getAttribute("data-ts"));
+      if (isNaN(ts)) continue;
+      spans[i].textContent = "(" + bucketAgeText(Math.max(0, now - ts)) + ")";
+    }
+  }
+  refreshAges();
+  setInterval(refreshAges, 60000);
+})();
+</script>
 </body>
 </html>
