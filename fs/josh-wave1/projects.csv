@@ -3,6 +3,7 @@ pre-2026 still active,CA-3931,Concordia Parish-NONE-CA-3931-Construction Area - 
 pre-2026 still active,CA-4292,West Feliciana Parish-NONE-CA-4292-Construction Area - Weyanoke,LA,West Feliciana Parish,2024-12-01,2025-03-31,In Construction,126,67.87,743,blocked,0.0,11.7,SUB-19
 pre-2026 still active,CA-4348,West Feliciana Parish-NONE-CA-4348-Construction Area - Wakefield,LA,West Feliciana Parish,2024-12-01,2025-03-31,In Construction,125,46.8,774,blocked,0.0,6.5,SUB-19
 pre-2026 still active,CA-4397,West Feliciana Parish-NONE-CA-4397-Construction Area - St Francisville,LA,West Feliciana Parish,2024-12-01,2025-02-28,In Construction,123,22.99,250,blocked,0.0,3.37,SUB-19
+scheduled start,CA-7484,Ashley County-NONE-CA-7484-Construction Area - Wilmot Legacy,AR,Ashley County,2025-01-01,2025-01-31,not_started,0,0.0,0,no_data,0.0,0.0,
 pre-2026 still active,CA-6892,Sabine Parish-NONE-CA-6892-Construction Area - Zwolle Construction Area,LA,Sabine Parish,2025-02-01,2025-07-31,In Construction,174,42.27,1745,clear,26.3,0.0,SUB-4
 pre-2026 still active,CA-7591,Natchitoches Parish-NONE-CA-7591-Construction Area - Natchez,LA,Natchitoches Parish,2025-06-01,2025-10-31,In Construction,276,39.48,873,blocked,0.0,22.6,SUB-20
 pre-2026 still active,CA-8464,Wilkinson County-NONE-CA-8464-Construction Area - Woodville,MS,Wilkinson County,2025-07-01,2025-09-30,In Construction,342,3.86,281,no_data,0.0,0.0,
@@ -10,6 +11,8 @@ pre-2026 still active,CA-8465,Wilkinson County-NONE-CA-8465-Construction Area - 
 pre-2026 still active,CA-8486,Winn Parish-NONE-CA-8486-Construction Area - Winnfield South,LA,Winn Parish,2025-07-01,2025-11-30,In Construction,325,13.66,130,partial,1.3,2.82,"SUB-20, SUB-21"
 pre-2026 still active,CA-8475,Jefferson Davis Parish-NONE-CA-8475-Construction Area - Jefferson Davis Norwest 1 RDOF,LA,Jefferson Davis Parish,2025-08-01,2026-02-28,In Construction,326,75.98,906,blocked,0.0,12.32,SUB-31
 pre-2026 still active,CA-8480,Allen Parish-NONE-CA-8480-Construction Area - Jefferson Davis Kinder Transport,LA,Allen Parish,2025-08-01,2025-08-31,In Construction,327,2.84,16,no_data,0.0,0.0,
+scheduled start,CA-8914,Allen Parish-NONE-CA-8914-Construction Area - Allen Gumbo Redesign,LA,Allen Parish,2025-08-01,2025-08-31,not_started,0,0.0,0,no_data,0.0,0.0,
+pre-2026 still active,CA-9805,Natchitoches Parish-NONE-CA-9805-Construction Area - Natchitoches RDOF remaining,LA,Natchitoches Parish,2025-08-01,2025-08-31,in_construction,0,3.11,12,blocked,0.0,0.29,SUB-20
 scheduled start,DA-6773,Natchitoches Parish-NONE-DA-6773-APPROVEDDESIGNAREAS - Natchitoches Transport,LA,Natchitoches Parish,2025-08-01,2025-08-31,not_started,0,4.26,1055,blocked,0.0,9.75,SUB-20
 pre-2026 still active,CA-8473,Jefferson County-NONE-CA-8473-Construction Area - CPF_BEAM_Fayette,MS,Jefferson County,2025-09-01,2025-11-30,In Construction,349,0.0,5,no_data,0.0,0.0,
 pre-2026 still active,CA-8487,St. Helena Parish-NONE-CA-8487-Construction Area - St Helena West,LA,St. Helena Parish,2025-09-01,2025-11-30,In Construction,329,12.77,142,blocked,0.0,0.86,SUB-19
@@ -26,6 +29,7 @@ pre-2026 still active,CA-8506,Faulkner County-NONE-CA-8506-Construction Area - M
 pre-2026 still active,CA-8924,Natchitoches Parish-NONE-CA-8924-Construction Area - Winnfield to Fair View Alpha Transport,LA,Natchitoches Parish,2025-11-01,2025-11-30,Loaded,380,6.07,63,blocked,0.0,1.18,SUB-20
 2026 in construction,CA-8916,Winn Parish-NONE-CA-8916-Construction Area - Winn East,LA,Winn Parish,2026-01-01,2026-03-31,In Construction,393,6.47,152,clear,11.7,0.0,SUB-21
 2026 in construction,CA-8929,Natchitoches Parish-NONE-CA-8929-Construction Area - NE Natchitoches,LA,Natchitoches Parish,2026-01-01,2026-02-28,Loaded,390,22.06,31,no_data,0.0,0.0,
+2026 not started,CA-8932,Winn Parish-NONE-CA-8932-Construction Area - St Maurice - Winn,LA,Winn Parish,2026-01-01,2026-06-30,not_started,387,0.0,27,blocked,0.0,6.24,SUB-20
 2026 in construction,CA-8947,Natchitoches Parish-NONE-CA-8947-Construction Area - St Maurice,LA,Natchitoches Parish,2026-01-01,2026-03-31,Loaded,389,21.22,344,blocked,0.0,21.69,SUB-20
 2026 in construction,CA-8949,Winn Parish-NONE-CA-8949-Construction Area - NW Winn,LA,Winn Parish,2026-01-01,2026-01-31,Loaded,391,0.0,0,no_data,0.0,0.0,
 2026 in construction,CA-8920,St. Landry Parish-NONE-CA-8920-Construction Area - St Landry State Rds,LA,St. Landry Parish,2026-02-01,2026-05-31,In Construction,375,65.41,475,no_data,0.0,0.0,
@@ -40,6 +44,8 @@ pre-2026 still active,CA-8924,Natchitoches Parish-NONE-CA-8924-Construction Area
 2026 in construction,CA-8963,Tensas Parish-NONE-CA-8963-Construction Area - Tensas Connector,LA,Tensas Parish,2026-04-01,2026-05-31,Loaded,420,5.59,138,clear,4.19,0.0,SUB-17
 2026 in construction,CA-9366,Rapides Parish-NONE-CA-9366-Construction Area - Rapides West RDOF,LA,Rapides Parish,2026-04-01,2026-08-31,in_construction,429,69.69,1581,blocked,0.0,73.72,SUB-24
 2026 in construction,CA-9367,Rapides Parish-NONE-CA-9367-Construction Area - Rapides Southwest RDOF,LA,Rapides Parish,2026-04-01,2026-08-31,in_construction,431,65.63,1340,blocked,0.0,79.52,SUB-24
+2026 not started,CA-9370,Avoyelles Parish-NONE-CA-9370-Construction Area - Tunica-Biloxi Reservation,LA,Avoyelles Parish,2026-04-01,2026-04-30,not_started,212,0.0,0,blocked,0.0,0.69,SUB-23
+2026 not started,CA-9382,LaSalle Parish-NONE-CA-9382-Construction Area - LaSalle Erate,LA,LaSalle Parish,2026-04-01,2026-04-30,not_started,419,0.0,4,no_data,0.0,0.0,
 2026 in construction,CA-8433,Calcasieu Parish-NONE-CA-8433-Construction Area - Dequincy Northeast,LA,Calcasieu Parish,2026-08-01,2026-09-30,In Construction,238,7.9,350,clear,4.1,0.0,SUB-9
 2026 in construction,CA-8479,Jefferson Davis Parish-NONE-CA-8479-Construction Area - Fenton,LA,Jefferson Davis Parish,2026-08-01,2026-08-31,In Construction,388,2.82,205,blocked,0.0,7.3,SUB-31
 2026 in construction,CA-9368,Rapides Parish-NONE-CA-9368-Construction Area - Rapides Central RDOF,LA,Rapides Parish,2026-08-01,2027-02-28,in_construction,430,45.02,1537,blocked,0.0,33.09,"SUB-24, SUB-26"
@@ -77,6 +83,7 @@ pre-2026 still active,CA-8924,Natchitoches Parish-NONE-CA-8924-Construction Area
 2026 not started,CDA-32569,Pearl River County-NONE-CDA-32569-Stat Area - 2027 - CDA-32569,MS,Pearl River County,2026-10-01,2027-05-31,not_started,0,33.98,468,no_data,0.0,0.0,
 2026 not started,CDA-32571,Lamar County-NONE-CDA-32571-Stat Area - 2027 - CDA-32571,MS,Lamar County,2026-10-01,2026-10-31,not_started,0,1.07,17,no_data,0.0,0.0,
 2026 not started,DA-10532,Jefferson Davis County-NONE-DA-10532-APPROVEDDESIGNAREAS - MS BEAD Monticello East,MS,Jefferson Davis County,2026-10-01,2026-10-31,not_started,0,0.41,109,no_data,0.0,0.0,
+2026 not started,DA-10977,Acadia Parish-NONE-DA-10977-APPROVEDDESIGNAREAS - Acadia-1,LA,Acadia Parish,2026-10-01,2026-10-31,not_started,0,1.1,105,partial,8.75,3.29,"SUB-30, SUB-32"
 2026 not started,DA-6882,Wilkinson County-NONE-DA-6882-APPROVEDDESIGNAREAS - CPF_BEAM_Southwest,MS,Wilkinson County,2026-10-01,2026-10-31,not_started,0,0.36,10,no_data,0.0,0.0,
 2026 not started,CDA-26544,Evangeline Parish-NONE-CDA-26544-Stat Area - 2026 - CDA-26544,LA,Evangeline Parish,2026-11-01,2027-06-30,not_started,0,60.28,1937,clear,66.51,0.0,SUB-12
 2026 not started,CDA-26550,Vernon Parish-NONE-CDA-26550-Stat Area - 2027 - CDA-26550,LA,Vernon Parish,2026-11-01,2027-04-30,not_started,0,9.67,299,blocked,0.0,9.32,SUB-2
@@ -110,6 +117,7 @@ scheduled start,CDA-29095,Concordia Parish-NONE-CDA-29095-Stat Area - 2026 - CDA
 scheduled start,CDA-32560,Jefferson Davis County-NONE-CDA-32560-Stat Area - 2027 - CDA-32560,MS,Jefferson Davis County,2027-02-01,2027-05-31,not_started,0,79.8,1970,no_data,0.0,0.0,
 scheduled start,DA-10534,Pearl River County-NONE-DA-10534-APPROVEDDESIGNAREAS - MS BEAD Lumberton South,MS,Pearl River County,2027-02-01,2027-02-28,not_started,0,0.25,8,no_data,0.0,0.0,
 scheduled start,DA-10519,Iberia Parish-NONE-DA-10519-APPROVEDDESIGNAREAS - Iberia Parish,LA,Iberia Parish,2027-03-01,2027-03-31,not_started,0,2.65,244,no_data,0.0,0.0,
+scheduled start,DA-10973,Lafayette Parish-NONE-DA-10973-APPROVEDDESIGNAREAS - Lafayette-2,LA,Lafayette Parish,2027-03-01,2027-03-31,not_started,0,0.95,1,no_data,0.0,0.0,
 scheduled start,DA-6751,Rapides Parish-NONE-DA-6751-APPROVEDDESIGNAREAS - Mcnary/Forest HIll/Glenmora,LA,Rapides Parish,2027-03-01,2027-03-31,not_started,0,1.62,244,clear,2.32,0.0,"SUB-12, SUB-25"
 scheduled start,CDA-27369,Iberia Parish-NONE-CDA-27369-Stat Area - 2027 - CDA-27369,LA,Iberia Parish,2027-04-01,2027-08-31,not_started,0,45.94,1919,blocked,0.0,50.1,SUB-28
 scheduled start,CDA-27343,Rapides Parish-NONE-CDA-27343-Stat Area - 2026 - CDA-27343,LA,Rapides Parish,2027-05-01,2027-09-30,not_started,0,68.8,1789,blocked,0.0,57.94,SUB-26
