@@ -16,7 +16,14 @@
   nav.toc { padding: 14px 24px; border-bottom: 1px solid var(--line); font-size: 13px; }
   nav.toc a { margin-right: 16px; color: var(--blue); text-decoration: none; }
   nav.toc a:hover { text-decoration: underline; }
+  nav.toc .toc-row { margin-bottom: 6px; }
+  nav.toc .toc-label { color: var(--muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em;
+    margin-right: 10px; }
   main { padding: 8px 24px 60px; max-width: 980px; margin: 0 auto; }
+  .cat-section { margin-top: 30px; }
+  .cat-head { font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--blue);
+    border-bottom: 2px solid var(--blue); padding-bottom: 6px; margin: 0 0 4px; }
+  .cat-count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: normal; }
   .card { border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; margin: 22px 0; }
   .card-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
   .card-head h2 { margin: 0; font-size: 19px; }
@@ -51,17 +58,16 @@
     demand, not a live database view; each report's own footer names its model version and
     generation timestamp.
   </p>
-  <a class="backlink" href="/fs/swyft/">&larr; Swyft launchpad (plain list of all unlisted GUMBO tools)</a>
+  <a class="backlink" href="/fs/swyft/">Also see: /fs/swyft/ &mdash; a raw, unmethodology'd file listing of every unlisted GUMBO tool (no intended-use/not-for guardrails; this Reports Directory is the primary, curated starting point)</a>
 </header>
 <nav class="toc">
-  <a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a>
-  <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a>
-  <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a>
-  <a href="#wave1_nepa_bead_labor">Wave 1 — remaining, NEPA, BEAD RC, labor $</a>
-  <a href="#reports_directory">GUMBO Reports Directory</a>
-  <a href="#report_queries">GUMBO Report Queries (code + plain English)</a>
+  <div class="toc-row"><span class="toc-label">Jump to category</span><a href="#cat-wave-1-nepa-bead">Wave 1 / NEPA / BEAD</a> <span class="cat-count">(2)</span> &middot; <a href="#cat-field-status-contrac-parity">Field Status / Contrac Parity</a> <span class="cat-count">(1)</span> &middot; <a href="#cat-gis-ground-truth">GIS / Ground Truth</a> <span class="cat-count">(1)</span> &middot; <a href="#cat-meta-directory">Meta / Directory</a> <span class="cat-count">(2)</span></div>
+  <div class="toc-row"><span class="toc-label">All reports</span><a href="#josh_wave1_map">Wave-1 construction + NEPA risk map</a> <a href="#ground_truth_map">GUMBO UT box map (GIS ground truth)</a> <a href="#wave_contrac_remaining">Wave / Contrac-adjusted remaining</a> <a href="#wave1_nepa_bead_labor">Wave 1 — remaining, NEPA, BEAD RC, labor $</a> <a href="#reports_directory">GUMBO Reports Directory</a> <a href="#report_queries">GUMBO Report Queries (code + plain English)</a></div>
 </nav>
 <main>
+
+<section class="cat-section" id="cat-wave-1-nepa-bead">
+  <h2 class="cat-head">Wave 1 / NEPA / BEAD <span class="cat-count">(2)</span></h2>
 
 <section class="card" id="josh_wave1_map">
   <div class="card-head">
@@ -70,7 +76,7 @@
   </div>
   <p class="purpose">GUMBO Wave-1 construction + NEPA risk map for Josh (Fibersmith)</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC <span class="age-live" data-ts="2026-08-18T18:05:21Z">(&hellip;)</span></b>
+    Last regenerated: <b>2026-08-20 01:42 UTC <span class="age-live" data-ts="2026-08-20T01:42:46Z">(&hellip;)</span></b>
     
   </p>
 
@@ -108,6 +114,109 @@
 </section>
 
 
+<section class="card" id="wave1_nepa_bead_labor">
+  <div class="card-head">
+    <h2>Wave 1 — remaining, NEPA, BEAD RC, labor $</h2>
+    <a class="live-link" href="https://thebourque.com/fs/wave1-nepa-bead-labor/">https://thebourque.com/fs/wave1-nepa-bead-labor/</a>
+  </div>
+  <p class="purpose">Wave-1 projects with passings remaining to build: Contrac-adjusted remaining, NEPA overlap, BEAD complete/remaining by give-back Reason Code, and atomic-BOQ labor/material $ remaining</p>
+  <p class="meta">
+    Last regenerated: <b>2026-08-20 01:44 UTC <span class="age-live" data-ts="2026-08-20T01:44:25Z">(&hellip;)</span></b>
+     &middot; 254 rows
+  </p>
+
+  <h3>How it was generated</h3>
+    <ul class='methodology'>
+      <li>Model: OPS_DRAFT_V900. Pulls Include=Yes, wave_tag='wave1_tom_ben' rows with hh_remain_adj &gt; 0 (Contrac-adjusted passings remaining) from the same engine as the Wave/Contrac-remaining report (src/wave_contrac_remaining.py) -- miles/passings/BEAD remaining, Contrac-adjusted the same three-case way: Complete -&gt; miles get the ROQ-overlay adjustment, households/BEAD -&gt; 0 (display-only); In Construction -&gt; miles get the same ROQ-overlay adjustment (mainline is allowed to move early), households/BEAD stay frozen at the plan value (core_rules_plan_field_remainder -- non-mainline categories do not move on partial field data, and perc_complete is a mileage signal, not a passings signal); no ROQ job -&gt; plan value unchanged for both. (2026-08-18 bugfix: households/BEAD were previously wrongly prorated by perc_complete during In Construction -- fixed same day, see TECH_NOTES.)</li>
+      <li>'Contrac status' and 'Field status' are two independent Contrac-sourced signals, not a duplicate display (2026-08-19, TECH_NOTES pt8): 'Contrac status' (contrack_roq_outcome_v1.project_status, '(no ROQ job)' when absent) drives the Contrac-adjusted remaining math above. 'Field status' (v900_build_meta_v1.field_status, plus the 'field_status_source' column naming which tier produced it -- contrac_live / cohort_a_pre_ocius / cohort_b_pre_gp / housinginput_fallback / housinginput_unconfirmed / parent_never_active) comes from a separate live-registry-or-Cohort-A/B-or-HousingInput resolution (src/v900_field_status.py, core_rules_never_infer_complete) and is a display-only field-truth label -- it does not drive this row's remaining math and can legitimately disagree with 'Contrac status' on a given row.</li>
+      <li>NEPA: same leftover-polygon-vs-NEPA-line spatial join as the Wave-1 + NEPA risk map (scripts/_dump_wave1_josh_map.py) -- approved/blocked overlap miles, and nepa_passing_at_risk = this row's full hh_remain_adj when nepa_status is not 'clear' (any blocked/partial/no-data NEPA line touching the leftover polygon).</li>
+      <li>BEAD give-back Reason Code: data/sandbox/bead_descope/giveback_locations.csv (Address_Awarded AwardArea IS NOT NULL) points intersected against the same leftover polygon via STRtree, counted per RC bucket (RC1_2/RC3/RC4/RC5_BDC/RC5_OTHER/Jason Cut).</li>
+      <li>Start/end date: raw_household_detail_v4.build_start_date/build_end_date, straight passthrough, no math.</li>
+      <li>Labor/material $ remaining: atomic BOQ mainline remainder (plan qty - field ROQ qty) x plan unit $ (src/plan_field_remainder.py), split by each Inputs atomic bucket's own labor-vs-material tag -- core_rules_atomic_units_authority. Pricing resolves to this model version's own atomic tables when present, else falls back to the Williams-825 authority pin (OPS_WILLIAMS_V825_RETIME) -- src/contrack_gumbo_buckets.resolve_atomic_pricing_version_tag() -- never a silent $0. tbl_mst_bom_dollar has its own permanent footnote pin (Ver8.2.1). Buckets with no labor/material tag at the Inputs grain (chiefly the magic-mile rollup trueup bucket) are reported separately as unsplit_remain_cost rather than guessed into either side -- labor_remain_cost + material_remain_cost + unsplit_remain_cost always foots to mainline_remain_cost. Every row names its labor_remain_source (matched_williams825_pin / matched_own_version / no_ocius_job_match).</li>
+      <li>Geometry pinned to ProjectAreas_20260810_arcgis_live.geojson (operator 2026-08-17: hold until told to move forward) -- same pin as report_ut_fsa_score.py / _dump_wave1_josh_map.py.</li>
+      <li>Static snapshot: re-run scripts/report_wave1_nepa_bead_labor.py (raw JSON/CSV/MD) AND scripts/gen_wave1_nepa_bead_labor_page.py (this browser page -- calls the same build_report() function, not a second copy, but writes a SEPARATE published artifact) to refresh, then rebuild+redeploy the hub site. Both, every time -- 2026-08-19 pt8 caught a real incident where only the first was re-run after a field_status DB fix, leaving this live page serving pre-fix data for a full day despite the underlying JSON already being correct.</li>
+    </ul>
+  <a class="query-link" href="/fs/report-queries/#wave1_nepa_bead_labor">&rarr; See the actual query (code + plain English)</a>
+
+  <div class="uses-grid">
+    <div class="uses-col uses-good">
+      <h3>&#10003; Intended uses</h3>
+    <ul class='uses'>
+      <li>Identifying which Wave-1 projects still have real passings remaining to build, with NEPA exposure and BEAD give-back context in one row.</li>
+      <li>Understanding the labor-vs-material-vs-unsplit composition of the atomic-BOQ dollar remainder on a project, and whether that $ figure is priced off this model version's own Inputs data or the Williams-825 authority pin.</li>
+      <li>Ad-hoc CSV pulls filtered by parish, NEPA status, or labor-pricing source for planning or diligence conversations.</li>
+    </ul>
+    </div>
+    <div class="uses-col uses-bad">
+      <h3>&#10007; Not for</h3>
+    <ul class='notfor'>
+      <li>Wave 2 or Wave 3 -- this report is Wave 1 only (wave_tag='wave1_tom_ben').</li>
+      <li>Projects with zero remaining passings -- filtered out entirely; use the Wave/Contrac-remaining report for the full Include Yes+No universe including complete projects.</li>
+      <li>A full project cost estimate -- labor/material/unsplit $ here covers only the mainline atomic BOQ remainder, not soft costs (engineering/permitting), drop/CPE/switching/access peripherals, or anything already spent.</li>
+      <li>Treating unsplit_remain_cost as either labor or material -- it is explicitly the share of the mainline remainder with no labor/material tag at the Inputs grain (the magic-mile rollup trueup); do not fold it into either side.</li>
+      <li>Treating a Williams-825-pin-priced row as if it reflects this model version's own negotiated unit costs -- labor_remain_source names the pin explicitly whenever that fallback is used.</li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+</section>
+
+
+<section class="cat-section" id="cat-field-status-contrac-parity">
+  <h2 class="cat-head">Field Status / Contrac Parity <span class="cat-count">(1)</span></h2>
+
+<section class="card" id="wave_contrac_remaining">
+  <div class="card-head">
+    <h2>Wave / Contrac-adjusted remaining</h2>
+    <a class="live-link" href="https://thebourque.com/fs/wave-remaining/">https://thebourque.com/fs/wave-remaining/</a>
+  </div>
+  <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
+  <p class="meta">
+    Last regenerated: <b>2026-08-20 01:42 UTC <span class="age-live" data-ts="2026-08-20T01:42:57Z">(&hellip;)</span></b>
+     &middot; 1,036 rows
+  </p>
+
+  <h3>How it was generated</h3>
+    <ul class='methodology'>
+      <li>Model: OPS_DRAFT_V900. Pulls every project row (Include=Yes AND No, all waves) from raw_household_detail_v4 joined to v900_build_meta_v1.</li>
+      <li>TWO INDEPENDENT Contrac-sourced columns, not one (2026-08-19 clarification, TECH_NOTES pt8): 'Contrac status' joins contrack_roq_outcome_v1.project_status on ocius_project_id (the ROQ-summary ingest, version-independent -- always current, not tied to a specific model run's refresh) and DRIVES the Contrac-adjusted remaining math below. 'Field status' is a separate column (v900_build_meta_v1.field_status) resolved by src/v900_field_status.py from a live GET /projects registry pull, or Cohort A/B rule membership, or a HousingInput fallback (core_rules_never_infer_complete -- never inferred from a date or a mile-lane snapshot) -- it is a field-truth display label and does NOT drive this report's remaining math. 'Field status source' names which tier produced it. The two can legitimately disagree on a given row (e.g. live-registry-Complete with an empty ROQ table) -- do not read 'field_status' as if it were another name for the 'Contrac status' column.</li>
+      <li>Plan remaining = households_to_be_built / model_miles_to_build, straight from the model's own plan-vs-field remainder engine.</li>
+      <li>Contrac-adjusted remaining overlays 'Contrac status' (contrack_roq_outcome_v1, NOT 'field_status'), and mainline (miles) is NOT treated the same as non-mainline (households/BEAD) -- core_rules_plan_field_remainder only lets mainline move early: Contrac Complete -&gt; miles = plan minus Contrac's own miles_ml_built (floored at 0), households/BEAD = 0 (display-only; does not rewrite the plan value); Contrac In Construction -&gt; miles get the same ROQ-overlay adjustment as Complete, but households/BEAD stay FROZEN at the plan value (perc_complete is a mainline-mileage completion percentage, not a passings/CPE/drop signal, and canon forbids moving a non-mainline category from partial field data during construction); no Contrac ROQ job (parent/off-grid row) -&gt; plan value unchanged for both.</li>
+      <li>2026-08-18 bugfix: a prior version of this report prorated households/BEAD by perc_complete during In Construction, which silently violated core_rules_plan_field_remainder (non-mainline must stay frozen until Complete). Fixed same day -- see docs/textbook/TECH_NOTES.md 2026-08-18 and src/wave_contrac_remaining.py module docstring.</li>
+      <li>BEAD remaining (plan and Contrac-adjusted) is bead_passing scaled by the same remaining-share ratio as households.</li>
+      <li>All 1,036+ rows are embedded inline in the page as JSON; every filter (parish/wave/project/Include), rollup, and the CSV export run entirely in the browser -- no server, nothing sent anywhere.</li>
+      <li>Static snapshot: re-run scripts/gen_wave_contrac_remaining_page.py to refresh, then rebuild+redeploy the hub site.</li>
+    </ul>
+  <a class="query-link" href="/fs/report-queries/#wave_contrac_remaining">&rarr; See the actual query (code + plain English)</a>
+
+  <div class="uses-grid">
+    <div class="uses-col uses-good">
+      <h3>&#10003; Intended uses</h3>
+    <ul class='uses'>
+      <li>Parish/wave/project-level plan-vs-field remaining comparison for miles, passings, and BEAD in one place.</li>
+      <li>Identifying which projects Contrac shows further along (or fully complete) than the raw plan number implies.</li>
+      <li>Ad-hoc CSV pulls for a specific parish or project set (e.g. the St. Landry Parish cut sent to Josh Richardson 2026-08-18).</li>
+    </ul>
+    </div>
+    <div class="uses-col uses-bad">
+      <h3>&#10007; Not for</h3>
+    <ul class='notfor'>
+      <li>NEPA risk exposure -- not in this dataset. Use the Wave-1 + NEPA risk map for that (Wave 1 only).</li>
+      <li>Cost or dollar figures -- this report is miles / passings / BEAD counts only, no $ anywhere.</li>
+      <li>Live/real-time status -- this is a static snapshot regenerated on demand, not a live query against the database.</li>
+      <li>Authority for anything beyond this specific miles/passings/BEAD remaining view -- for full model mechanics, financial waterfalls, or scorecards, use Model Manager, not this page.</li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+</section>
+
+
+<section class="cat-section" id="cat-gis-ground-truth">
+  <h2 class="cat-head">GIS / Ground Truth <span class="cat-count">(1)</span></h2>
+
 <section class="card" id="ground_truth_map">
   <div class="card-head">
     <h2>GUMBO UT box map (GIS ground truth)</h2>
@@ -115,7 +224,7 @@
   </div>
   <p class="purpose">Parish/leftover polygons, marketing + SwyftLoc model-location dots, Contrac CA status</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-18 18:05 UTC <span class="age-live" data-ts="2026-08-18T18:05:51Z">(&hellip;)</span></b>
+    Last regenerated: <b>2026-08-20 01:42 UTC <span class="age-live" data-ts="2026-08-20T01:42:57Z">(&hellip;)</span></b>
     
   </p>
 
@@ -150,98 +259,11 @@
   </div>
 </section>
 
-
-<section class="card" id="wave_contrac_remaining">
-  <div class="card-head">
-    <h2>Wave / Contrac-adjusted remaining</h2>
-    <a class="live-link" href="https://thebourque.com/fs/wave-remaining/">https://thebourque.com/fs/wave-remaining/</a>
-  </div>
-  <p class="purpose">Filterable project list (parish/wave/project, Include Yes+No) with plan vs Contrac-adjusted remaining miles/passings/BEAD and CSV export</p>
-  <p class="meta">
-    Last regenerated: <b>2026-08-19 13:54 UTC <span class="age-live" data-ts="2026-08-19T13:54:05Z">(&hellip;)</span></b>
-     &middot; 1,036 rows
-  </p>
-
-  <h3>How it was generated</h3>
-    <ul class='methodology'>
-      <li>Model: OPS_DRAFT_V900. Pulls every project row (Include=Yes AND No, all waves) from raw_household_detail_v4 joined to v900_build_meta_v1.</li>
-      <li>For each project, joins live field status from contrack_roq_outcome_v1 on ocius_project_id (version-independent -- always current, not tied to a specific model run's refresh).</li>
-      <li>Plan remaining = households_to_be_built / model_miles_to_build, straight from the model's own plan-vs-field remainder engine.</li>
-      <li>Contrac-adjusted remaining overlays that live field status, and mainline (miles) is NOT treated the same as non-mainline (households/BEAD) -- core_rules_plan_field_remainder only lets mainline move early: Contrac Complete -&gt; miles = plan minus Contrac's own miles_ml_built (floored at 0), households/BEAD = 0 (display-only; does not rewrite the plan value); Contrac In Construction -&gt; miles get the same ROQ-overlay adjustment as Complete, but households/BEAD stay FROZEN at the plan value (perc_complete is a mainline-mileage completion percentage, not a passings/CPE/drop signal, and canon forbids moving a non-mainline category from partial field data during construction); no Contrac ROQ job (parent/off-grid row) -&gt; plan value unchanged for both.</li>
-      <li>2026-08-18 bugfix: a prior version of this report prorated households/BEAD by perc_complete during In Construction, which silently violated core_rules_plan_field_remainder (non-mainline must stay frozen until Complete). Fixed same day -- see docs/textbook/TECH_NOTES.md 2026-08-18 and src/wave_contrac_remaining.py module docstring.</li>
-      <li>BEAD remaining (plan and Contrac-adjusted) is bead_passing scaled by the same remaining-share ratio as households.</li>
-      <li>All 1,036+ rows are embedded inline in the page as JSON; every filter (parish/wave/project/Include), rollup, and the CSV export run entirely in the browser -- no server, nothing sent anywhere.</li>
-      <li>Static snapshot: re-run scripts/gen_wave_contrac_remaining_page.py to refresh, then rebuild+redeploy the hub site.</li>
-    </ul>
-  <a class="query-link" href="/fs/report-queries/#wave_contrac_remaining">&rarr; See the actual query (code + plain English)</a>
-
-  <div class="uses-grid">
-    <div class="uses-col uses-good">
-      <h3>&#10003; Intended uses</h3>
-    <ul class='uses'>
-      <li>Parish/wave/project-level plan-vs-field remaining comparison for miles, passings, and BEAD in one place.</li>
-      <li>Identifying which projects Contrac shows further along (or fully complete) than the raw plan number implies.</li>
-      <li>Ad-hoc CSV pulls for a specific parish or project set (e.g. the St. Landry Parish cut sent to Josh Richardson 2026-08-18).</li>
-    </ul>
-    </div>
-    <div class="uses-col uses-bad">
-      <h3>&#10007; Not for</h3>
-    <ul class='notfor'>
-      <li>NEPA risk exposure -- not in this dataset. Use the Wave-1 + NEPA risk map for that (Wave 1 only).</li>
-      <li>Cost or dollar figures -- this report is miles / passings / BEAD counts only, no $ anywhere.</li>
-      <li>Live/real-time status -- this is a static snapshot regenerated on demand, not a live query against the database.</li>
-      <li>Authority for anything beyond this specific miles/passings/BEAD remaining view -- for full model mechanics, financial waterfalls, or scorecards, use Model Manager, not this page.</li>
-    </ul>
-    </div>
-  </div>
 </section>
 
 
-<section class="card" id="wave1_nepa_bead_labor">
-  <div class="card-head">
-    <h2>Wave 1 — remaining, NEPA, BEAD RC, labor $</h2>
-    <a class="live-link" href="https://thebourque.com/fs/wave1-nepa-bead-labor/">https://thebourque.com/fs/wave1-nepa-bead-labor/</a>
-  </div>
-  <p class="purpose">Wave-1 projects with passings remaining to build: Contrac-adjusted remaining, NEPA overlap, BEAD complete/remaining by give-back Reason Code, and atomic-BOQ labor/material $ remaining</p>
-  <p class="meta">
-    Last regenerated: <b>2026-08-19 00:40 UTC <span class="age-live" data-ts="2026-08-19T00:40:17Z">(&hellip;)</span></b>
-     &middot; 254 rows
-  </p>
-
-  <h3>How it was generated</h3>
-    <ul class='methodology'>
-      <li>Model: OPS_DRAFT_V900. Pulls Include=Yes, wave_tag='wave1_tom_ben' rows with hh_remain_adj &gt; 0 (Contrac-adjusted passings remaining) from the same engine as the Wave/Contrac-remaining report (src/wave_contrac_remaining.py) -- miles/passings/BEAD remaining, Contrac-adjusted the same three-case way: Complete -&gt; miles get the ROQ-overlay adjustment, households/BEAD -&gt; 0 (display-only); In Construction -&gt; miles get the same ROQ-overlay adjustment (mainline is allowed to move early), households/BEAD stay frozen at the plan value (core_rules_plan_field_remainder -- non-mainline categories do not move on partial field data, and perc_complete is a mileage signal, not a passings signal); no ROQ job -&gt; plan value unchanged for both. (2026-08-18 bugfix: households/BEAD were previously wrongly prorated by perc_complete during In Construction -- fixed same day, see TECH_NOTES.)</li>
-      <li>NEPA: same leftover-polygon-vs-NEPA-line spatial join as the Wave-1 + NEPA risk map (scripts/_dump_wave1_josh_map.py) -- approved/blocked overlap miles, and nepa_passing_at_risk = this row's full hh_remain_adj when nepa_status is not 'clear' (any blocked/partial/no-data NEPA line touching the leftover polygon).</li>
-      <li>BEAD give-back Reason Code: data/sandbox/bead_descope/giveback_locations.csv (Address_Awarded AwardArea IS NOT NULL) points intersected against the same leftover polygon via STRtree, counted per RC bucket (RC1_2/RC3/RC4/RC5_BDC/RC5_OTHER/Jason Cut).</li>
-      <li>Start/end date: raw_household_detail_v4.build_start_date/build_end_date, straight passthrough, no math.</li>
-      <li>Labor/material $ remaining: atomic BOQ mainline remainder (plan qty - field ROQ qty) x plan unit $ (src/plan_field_remainder.py), split by each Inputs atomic bucket's own labor-vs-material tag -- core_rules_atomic_units_authority. Pricing resolves to this model version's own atomic tables when present, else falls back to the Williams-825 authority pin (OPS_WILLIAMS_V825_RETIME) -- src/contrack_gumbo_buckets.resolve_atomic_pricing_version_tag() -- never a silent $0. tbl_mst_bom_dollar has its own permanent footnote pin (Ver8.2.1). Buckets with no labor/material tag at the Inputs grain (chiefly the magic-mile rollup trueup bucket) are reported separately as unsplit_remain_cost rather than guessed into either side -- labor_remain_cost + material_remain_cost + unsplit_remain_cost always foots to mainline_remain_cost. Every row names its labor_remain_source (matched_williams825_pin / matched_own_version / no_ocius_job_match).</li>
-      <li>Geometry pinned to ProjectAreas_20260810_arcgis_live.geojson (operator 2026-08-17: hold until told to move forward) -- same pin as report_ut_fsa_score.py / _dump_wave1_josh_map.py.</li>
-      <li>Static snapshot: re-run scripts/report_wave1_nepa_bead_labor.py (raw JSON/CSV/MD) and scripts/gen_wave1_nepa_bead_labor_page.py (this browser page -- calls the same build_report() function, not a second copy) to refresh, then rebuild+redeploy the hub site.</li>
-    </ul>
-  <a class="query-link" href="/fs/report-queries/#wave1_nepa_bead_labor">&rarr; See the actual query (code + plain English)</a>
-
-  <div class="uses-grid">
-    <div class="uses-col uses-good">
-      <h3>&#10003; Intended uses</h3>
-    <ul class='uses'>
-      <li>Identifying which Wave-1 projects still have real passings remaining to build, with NEPA exposure and BEAD give-back context in one row.</li>
-      <li>Understanding the labor-vs-material-vs-unsplit composition of the atomic-BOQ dollar remainder on a project, and whether that $ figure is priced off this model version's own Inputs data or the Williams-825 authority pin.</li>
-      <li>Ad-hoc CSV pulls filtered by parish, NEPA status, or labor-pricing source for planning or diligence conversations.</li>
-    </ul>
-    </div>
-    <div class="uses-col uses-bad">
-      <h3>&#10007; Not for</h3>
-    <ul class='notfor'>
-      <li>Wave 2 or Wave 3 -- this report is Wave 1 only (wave_tag='wave1_tom_ben').</li>
-      <li>Projects with zero remaining passings -- filtered out entirely; use the Wave/Contrac-remaining report for the full Include Yes+No universe including complete projects.</li>
-      <li>A full project cost estimate -- labor/material/unsplit $ here covers only the mainline atomic BOQ remainder, not soft costs (engineering/permitting), drop/CPE/switching/access peripherals, or anything already spent.</li>
-      <li>Treating unsplit_remain_cost as either labor or material -- it is explicitly the share of the mainline remainder with no labor/material tag at the Inputs grain (the magic-mile rollup trueup); do not fold it into either side.</li>
-      <li>Treating a Williams-825-pin-priced row as if it reflects this model version's own negotiated unit costs -- labor_remain_source names the pin explicitly whenever that fallback is used.</li>
-    </ul>
-    </div>
-  </div>
-</section>
-
+<section class="cat-section" id="cat-meta-directory">
+  <h2 class="cat-head">Meta / Directory <span class="cat-count">(2)</span></h2>
 
 <section class="card" id="reports_directory">
   <div class="card-head">
@@ -250,7 +272,7 @@
   </div>
   <p class="purpose">Front door explaining every report above: how each was generated, intended uses, and explicit non-uses</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-19 00:40 UTC <span class="age-live" data-ts="2026-08-19T00:40:25Z">(&hellip;)</span></b>
+    Last regenerated: <b>2026-08-20 01:42 UTC <span class="age-live" data-ts="2026-08-20T01:42:24Z">(&hellip;)</span></b>
     
   </p>
 
@@ -290,7 +312,7 @@
   </div>
   <p class="purpose">For every report, the actual SQL/Python that produced its numbers, verbatim, with a plain-English walkthrough</p>
   <p class="meta">
-    Last regenerated: <b>2026-08-19 01:02 UTC <span class="age-live" data-ts="2026-08-19T01:02:07Z">(&hellip;)</span></b>
+    Last regenerated: <b>2026-08-20 01:42 UTC <span class="age-live" data-ts="2026-08-20T01:42:24Z">(&hellip;)</span></b>
     
   </p>
 
@@ -320,8 +342,10 @@
   </div>
 </section>
 
+</section>
+
 </main>
-<footer>Generated 2026-08-19 22:12:59 UTC &middot; unlisted, noindex, not in nav</footer>
+<footer>Generated 2026-08-20 01:44:25 UTC &middot; unlisted, noindex, not in nav</footer>
 <script>
 // Recompute every "(...ago)" span from the visitor's own clock -- the
 // absolute UTC timestamp next to it (baked in at generation time) is the
